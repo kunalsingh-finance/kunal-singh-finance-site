@@ -77,6 +77,62 @@ const revealElement = (element) => {
 };
 
 /**
+ * @typedef {Object} CredentialData
+ * @property {string} issuer
+ * @property {string} title
+ * @property {string} detail
+ * @property {string} image
+ */
+
+/**
+ * @param {HTMLButtonElement} trigger
+ * @returns {CredentialData}
+ */
+const getCredentialData = (trigger) => {
+  const issuer = trigger.dataset.issuer;
+  const title = trigger.dataset.title;
+  const detail = trigger.dataset.detail;
+  const image = trigger.dataset.image;
+
+  if (issuer === undefined || title === undefined || detail === undefined || image === undefined) {
+    throw new TypeError(`Credential trigger is missing required data: ${trigger.textContent}`);
+  }
+
+  return {
+    issuer,
+    title,
+    detail,
+    image,
+  };
+};
+
+/**
+ * @param {HTMLImageElement} imageElement
+ * @param {HTMLElement} issuerElement
+ * @param {HTMLElement} titleElement
+ * @param {HTMLElement} detailElement
+ * @param {HTMLAnchorElement} requestElement
+ * @param {CredentialData} data
+ * @returns {void}
+ */
+const populateCredentialDialog = (
+  imageElement,
+  issuerElement,
+  titleElement,
+  detailElement,
+  requestElement,
+  data,
+) => {
+  imageElement.src = data.image;
+  imageElement.alt = `${data.title} certificate awarded to Kunal Singh`;
+  issuerElement.textContent = data.issuer;
+  titleElement.textContent = data.title;
+  detailElement.textContent = data.detail;
+  requestElement.href =
+    `mailto:ks0000477@gmail.com?subject=${encodeURIComponent(`Credential Verification - ${data.title}`)}`;
+};
+
+/**
  * @param {NodeListOf<Element>} elements
  * @returns {IntersectionObserver}
  */
@@ -113,6 +169,16 @@ const initializeSite = (documentNode, windowNode) => {
   const menuButton = documentNode.querySelector(".menu-button");
   const mobileNavigation = documentNode.querySelector(".mobile-nav");
   const revealElements = documentNode.querySelectorAll("[data-reveal]");
+  const credentialDialog = documentNode.querySelector("#credential-dialog");
+  const credentialDialogClose = documentNode.querySelector(".credential-dialog-close");
+  const credentialDialogImage = documentNode.querySelector("#credential-dialog-image");
+  const credentialDialogIssuer = documentNode.querySelector("#credential-dialog-issuer");
+  const credentialDialogTitle = documentNode.querySelector("#credential-dialog-title");
+  const credentialDialogDetail = documentNode.querySelector("#credential-dialog-detail");
+  const credentialDialogRequest = documentNode.querySelector("#credential-dialog-request");
+  const credentialTriggers = documentNode.querySelectorAll(".credential-trigger");
+  /** @type {HTMLButtonElement | null} */
+  let activeCredentialTrigger = null;
 
   if (!(header instanceof HTMLElement)) {
     throw new TypeError("Expected .site-header to be an HTMLElement.");
@@ -124,6 +190,34 @@ const initializeSite = (documentNode, windowNode) => {
 
   if (!(mobileNavigation instanceof HTMLElement)) {
     throw new TypeError("Expected .mobile-nav to be an HTMLElement.");
+  }
+
+  if (!(credentialDialog instanceof HTMLDialogElement)) {
+    throw new TypeError("Expected #credential-dialog to be an HTMLDialogElement.");
+  }
+
+  if (!(credentialDialogClose instanceof HTMLButtonElement)) {
+    throw new TypeError("Expected .credential-dialog-close to be an HTMLButtonElement.");
+  }
+
+  if (!(credentialDialogImage instanceof HTMLImageElement)) {
+    throw new TypeError("Expected #credential-dialog-image to be an HTMLImageElement.");
+  }
+
+  if (!(credentialDialogIssuer instanceof HTMLElement)) {
+    throw new TypeError("Expected #credential-dialog-issuer to be an HTMLElement.");
+  }
+
+  if (!(credentialDialogTitle instanceof HTMLElement)) {
+    throw new TypeError("Expected #credential-dialog-title to be an HTMLElement.");
+  }
+
+  if (!(credentialDialogDetail instanceof HTMLElement)) {
+    throw new TypeError("Expected #credential-dialog-detail to be an HTMLElement.");
+  }
+
+  if (!(credentialDialogRequest instanceof HTMLAnchorElement)) {
+    throw new TypeError("Expected #credential-dialog-request to be an HTMLAnchorElement.");
   }
 
   const updateScrollState = () => {
@@ -150,6 +244,45 @@ const initializeSite = (documentNode, windowNode) => {
 
   mobileNavigation.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", closeMenu);
+  });
+
+  credentialTriggers.forEach((element) => {
+    if (!(element instanceof HTMLButtonElement)) {
+      throw new TypeError("Expected each .credential-trigger to be an HTMLButtonElement.");
+    }
+
+    element.addEventListener("click", () => {
+      const credentialData = getCredentialData(element);
+
+      populateCredentialDialog(
+        credentialDialogImage,
+        credentialDialogIssuer,
+        credentialDialogTitle,
+        credentialDialogDetail,
+        credentialDialogRequest,
+        credentialData,
+      );
+      activeCredentialTrigger = element;
+      body.classList.add("dialog-open");
+      credentialDialog.showModal();
+    });
+  });
+
+  credentialDialogClose.addEventListener("click", () => {
+    credentialDialog.close();
+  });
+
+  credentialDialog.addEventListener("click", (event) => {
+    if (event.target === credentialDialog) {
+      credentialDialog.close();
+    }
+  });
+
+  credentialDialog.addEventListener("close", () => {
+    body.classList.remove("dialog-open");
+    credentialDialogImage.removeAttribute("src");
+    activeCredentialTrigger?.focus();
+    activeCredentialTrigger = null;
   });
 
   windowNode.addEventListener("keydown", (event) => {

@@ -26,3 +26,6 @@ https://kunalsingh-finance.github.io/kunal-singh-finance-site/
 The site links to public repositories and excludes resumes, raw certificates, account
 identifiers, NAV dollar values, detailed position sizes, restricted portfolio values, and
 unreviewed course artifacts.
+
+Credential cards use reviewed PNG previews. Verification codes and unrelated participant
+details are removed from the public copies while original certificate files remain private.
