@@ -12,10 +12,16 @@ const initializeSite = (documentNode, windowNode) => {
   const mobileNavigation = documentNode.querySelector(".mobile-nav");
   const reduceMotion = windowNode.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = windowNode.matchMedia("(pointer: fine)");
+  const scrollMotionSections = Array.from(documentNode.querySelectorAll("[data-chapter]"));
+  const visibleMotionSections = new Set();
   let scrollFrame = 0;
   let pointerFrame = 0;
+  let tiltFrame = 0;
   let pointerX = 0;
   let pointerY = 0;
+  let activeTiltElement = null;
+  let tiltX = 0;
+  let tiltY = 0;
 
   const paintScrollState = () => {
     scrollFrame = 0;
@@ -31,6 +37,28 @@ const initializeSite = (documentNode, windowNode) => {
     root.style.setProperty("--scroll-progress", `${progress}%`);
     root.style.setProperty("--hero-offset", `${heroOffset}px`);
     header?.classList.toggle("is-scrolled", scrollTop > 24);
+
+    visibleMotionSections.forEach((section) => {
+      if (!(section instanceof HTMLElement)) {
+        return;
+      }
+
+      if (reduceMotion.matches) {
+        section.style.setProperty("--section-progress", "0.5");
+        section.style.setProperty("--section-shift", "0px");
+        return;
+      }
+
+      const bounds = section.getBoundingClientRect();
+      const sectionProgress = clamp(
+        (windowNode.innerHeight - bounds.top) / (windowNode.innerHeight + bounds.height),
+        0,
+        1,
+      );
+      const sectionShift = clamp((0.5 - sectionProgress) * 72, -36, 36);
+      section.style.setProperty("--section-progress", sectionProgress.toFixed(4));
+      section.style.setProperty("--section-shift", `${sectionShift.toFixed(2)}px`);
+    });
   };
 
   const scheduleScrollPaint = () => {
@@ -90,6 +118,155 @@ const initializeSite = (documentNode, windowNode) => {
         resetHeroDepth();
       }
     });
+  }
+
+  if ("IntersectionObserver" in windowNode) {
+    const scrollMotionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleMotionSections.add(entry.target);
+          } else {
+            visibleMotionSections.delete(entry.target);
+          }
+        });
+        scheduleScrollPaint();
+      },
+      { rootMargin: "24% 0px 24% 0px", threshold: 0 },
+    );
+
+    scrollMotionSections.forEach((section) => scrollMotionObserver.observe(section));
+  } else {
+    scrollMotionSections.forEach((section) => visibleMotionSections.add(section));
+  }
+
+  const tiltElements = Array.from(documentNode.querySelectorAll("[data-tilt]"));
+
+  const resetTilt = (element) => {
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+    element.style.setProperty("--tilt-x", "0deg");
+    element.style.setProperty("--tilt-y", "0deg");
+    element.style.setProperty("--tilt-glow-x", "50%");
+    element.style.setProperty("--tilt-glow-y", "50%");
+  };
+
+  const resetAllTilts = () => {
+    if (tiltFrame !== 0) {
+      windowNode.cancelAnimationFrame(tiltFrame);
+      tiltFrame = 0;
+    }
+    activeTiltElement = null;
+    tiltElements.forEach(resetTilt);
+  };
+
+  const paintTilt = () => {
+    tiltFrame = 0;
+    if (!(activeTiltElement instanceof HTMLElement)) {
+      return;
+    }
+    activeTiltElement.style.setProperty("--tilt-x", `${tiltX.toFixed(2)}deg`);
+    activeTiltElement.style.setProperty("--tilt-y", `${tiltY.toFixed(2)}deg`);
+  };
+
+  tiltElements.forEach((element) => {
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+
+    element.addEventListener(
+      "pointermove",
+      (event) => {
+        if (reduceMotion.matches || !finePointer.matches) {
+          return;
+        }
+
+        const bounds = element.getBoundingClientRect();
+        const localX = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
+        const localY = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
+        activeTiltElement = element;
+        tiltX = (localX - 0.5) * 4.4;
+        tiltY = (0.5 - localY) * 4;
+        element.style.setProperty("--tilt-glow-x", `${(localX * 100).toFixed(1)}%`);
+        element.style.setProperty("--tilt-glow-y", `${(localY * 100).toFixed(1)}%`);
+
+        if (tiltFrame === 0) {
+          tiltFrame = windowNode.requestAnimationFrame(paintTilt);
+        }
+      },
+      { passive: true },
+    );
+
+    element.addEventListener(
+      "pointerleave",
+      () => {
+        if (activeTiltElement === element && tiltFrame !== 0) {
+          windowNode.cancelAnimationFrame(tiltFrame);
+          tiltFrame = 0;
+        }
+        activeTiltElement = null;
+        resetTilt(element);
+      },
+      { passive: true },
+    );
+  });
+
+  finePointer.addEventListener("change", resetAllTilts);
+  reduceMotion.addEventListener("change", (event) => {
+    if (event.matches) {
+      resetAllTilts();
+    }
+  });
+
+  const chapterSections = scrollMotionSections;
+  const chapterIndex = documentNode.querySelector(".chapter-rail-index");
+  const chapterLabel = documentNode.querySelector(".chapter-rail-label");
+  const chapterNavigationLinks = Array.from(
+    documentNode.querySelectorAll(".desktop-nav a, .mobile-nav a"),
+  );
+
+  const activateChapter = (section) => {
+    if (!(section instanceof HTMLElement)) {
+      return;
+    }
+
+    if (chapterIndex instanceof HTMLElement) {
+      chapterIndex.textContent = section.dataset.chapterIndex ?? "";
+    }
+    if (chapterLabel instanceof HTMLElement) {
+      chapterLabel.textContent = section.dataset.chapter ?? "";
+    }
+
+    chapterNavigationLinks.forEach((link) => {
+      const isCurrent = link instanceof HTMLAnchorElement && link.hash === `#${section.id}`;
+      link.classList.toggle("is-active", isCurrent);
+      if (isCurrent) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  if (chapterSections.length > 0) {
+    activateChapter(chapterSections[0]);
+
+    if ("IntersectionObserver" in windowNode) {
+      const chapterObserver = new IntersectionObserver(
+        (entries) => {
+          entries
+            .filter((entry) => entry.isIntersecting)
+            .forEach((entry) => activateChapter(entry.target));
+        },
+        {
+          rootMargin: "-42% 0px -50% 0px",
+          threshold: 0,
+        },
+      );
+
+      chapterSections.forEach((section) => chapterObserver.observe(section));
+    }
   }
 
   const revealElements = Array.from(documentNode.querySelectorAll("[data-reveal]"));

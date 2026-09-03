@@ -67,6 +67,11 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"><span></span></div>
+    <div class="chapter-rail" aria-hidden="true">
+      <span class="chapter-rail-index">01</span>
+      <span class="chapter-rail-line"><i></i></span>
+      <span class="chapter-rail-label">Opening</span>
+    </div>
 
     <header class="site-header">
       <a class="wordmark" href="#top" aria-label="Kunal Singh home">
@@ -110,7 +115,7 @@
     </header>
 
     <main id="main" tabindex="-1">
-      <section class="hero" id="top">
+      <section class="hero" id="top" data-chapter="Opening" data-chapter-index="01">
         <picture class="hero-picture" aria-hidden="true">
           <source
             type="image/webp"
@@ -131,7 +136,11 @@
         <div class="section-shell hero-layout">
           <div class="hero-copy" data-reveal>
             <p class="eyebrow">Investment research / portfolio analytics / financial risk</p>
-            <h1>Finance built to stand up to scrutiny.</h1>
+            <h1 aria-label="Finance built to stand up to scrutiny.">
+              <span class="hero-line" aria-hidden="true"><span>Finance built</span></span>
+              <span class="hero-line" aria-hidden="true"><span>to stand up</span></span>
+              <span class="hero-line" aria-hidden="true"><span>to scrutiny.</span></span>
+            </h1>
             <p class="hero-summary">
               I build research, portfolio analytics, and risk systems that turn complex market
               data into clear, testable decisions.
@@ -176,7 +185,7 @@
         </a>
       </section>
 
-      <section class="overview-section" id="mission">
+      <section class="overview-section" id="mission" data-chapter="Operating standard" data-chapter-index="02">
         <div class="section-shell overview-layout">
           <div class="section-heading" data-reveal>
             <p class="eyebrow">One operating standard</p>
@@ -219,7 +228,7 @@
         </div>
       </section>
 
-      <section class="work-section" id="work">
+      <section class="work-section" id="work" data-chapter="Selected work" data-chapter-index="03">
         <div class="section-shell">
           <div class="work-heading" data-reveal>
             <div>
@@ -232,6 +241,7 @@
             </p>
           </div>
 
+          <div class="flagship-stack">
           <article class="flagship flagship-bank motion-scene" data-reveal>
             <div class="flagship-copy">
               <div class="project-kicker">
@@ -263,7 +273,7 @@
               </a>
             </div>
 
-            <div class="risk-console" aria-hidden="true">
+            <div class="risk-console" aria-hidden="true" data-tilt>
               <div class="visual-header">
                 <span>SYNTHETIC REVIEW QUEUE</span>
                 <span>2026 Q1</span>
@@ -288,7 +298,7 @@
           </article>
 
           <article class="flagship flagship-gkx motion-scene" data-reveal>
-            <div class="research-console" role="group" aria-label="Locked-test model results">
+            <div class="research-console" role="group" aria-label="Locked-test model results" data-tilt>
               <div class="visual-header">
                 <span>LOCKED TEST / 34 MONTHS</span>
                 <span>NO TEST TUNING</span>
@@ -347,11 +357,12 @@
               </a>
             </div>
           </article>
+          </div>
 
           <div class="feature-grid">
             <article class="feature-card feature-allocation motion-scene" data-reveal>
               <div class="feature-number">03</div>
-              <div class="feature-visual" aria-hidden="true">
+              <div class="feature-visual" aria-hidden="true" data-tilt>
                 <svg viewBox="0 0 420 220">
                   <path class="chart-grid" d="M30 20V190H400 M30 55H400 M30 95H400 M30 135H400"></path>
                   <path
@@ -379,7 +390,7 @@
 
             <article class="feature-card feature-black-litterman motion-scene" data-reveal>
               <div class="feature-number">04</div>
-              <div class="feature-visual signal-visual" aria-hidden="true">
+              <div class="feature-visual signal-visual" aria-hidden="true" data-tilt>
                 <span style="--height: 42%"></span>
                 <span style="--height: 73%"></span>
                 <span style="--height: 56%"></span>
@@ -404,7 +415,7 @@
 
             <article class="feature-card feature-pbor motion-scene" data-reveal>
               <div class="feature-number">05</div>
-              <div class="feature-visual ledger-visual" aria-hidden="true">
+              <div class="feature-visual ledger-visual" aria-hidden="true" data-tilt>
                 <div><span></span><span></span><i>✓</i></div>
                 <div><span></span><span></span><i>✓</i></div>
                 <div><span></span><span></span><i>✓</i></div>
@@ -425,15 +436,15 @@
         </div>
       </section>
 
-      <section class="portfolio-section" id="portfolio">
+      <section class="portfolio-section" id="portfolio" data-chapter="Portfolio case" data-chapter-index="04">
         <picture class="portfolio-picture" aria-hidden="true">
           <source
             type="image/webp"
-            srcset="assets/institutional-trading-desk-960.webp 960w, assets/institutional-trading-desk-1672.webp 1672w"
+            srcset="assets/portfolio-capital-flow-v2-960.webp 960w, assets/portfolio-capital-flow-v2-1672.webp 1672w"
             sizes="100vw"
           >
           <img
-            src="assets/institutional-trading-desk.png"
+            src="assets/portfolio-capital-flow-v2.png"
             width="1672"
             height="941"
             alt=""
@@ -454,7 +465,7 @@
           </div>
 
           <div class="portfolio-dashboard" data-reveal>
-            <div class="portfolio-terminal">
+            <div class="portfolio-terminal" data-tilt>
               <div class="visual-header">
                 <span>PORTFOLIOANALYST</span>
                 <span>2025-06-30 → 2026-06-30</span>
@@ -562,7 +573,7 @@
         </div>
       </section>
 
-      <section class="project-index-section" id="projects">
+      <section class="project-index-section" id="projects" data-chapter="Complete index" data-chapter-index="05">
         <div class="section-shell">
           <div class="index-heading" data-reveal>
             <div>
@@ -665,12 +676,12 @@
         </div>
       </section>
 
-      <section class="experience-section" id="experience">
+      <section class="experience-section" id="experience" data-chapter="Professional record" data-chapter-index="06">
         <div class="section-shell experience-layout">
           <aside class="profile-column" data-reveal>
             <p class="eyebrow">Professional record</p>
             <h2>Finance rigor. Technical leverage.</h2>
-            <div class="profile-card">
+            <div class="profile-card" data-tilt>
               <picture>
                 <source
                   type="image/webp"
@@ -738,7 +749,7 @@
         </div>
       </section>
 
-      <section class="credentials-section" id="credentials">
+      <section class="credentials-section" id="credentials" data-chapter="Credentials" data-chapter-index="07">
         <div class="section-shell">
           <div class="credentials-heading" data-reveal>
             <div>
@@ -786,7 +797,7 @@
         </div>
       </section>
 
-      <section class="contact-section" id="contact">
+      <section class="contact-section" id="contact" data-chapter="Contact" data-chapter-index="08">
         <div class="contact-grid" aria-hidden="true"></div>
         <div class="section-shell contact-content" data-reveal>
           <p class="eyebrow">Connect</p>
