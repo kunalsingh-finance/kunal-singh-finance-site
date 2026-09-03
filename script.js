@@ -7,10 +7,15 @@ const initializeSite = (documentNode, windowNode) => {
   const body = documentNode.body;
   const header = documentNode.querySelector(".site-header");
   const mainContent = documentNode.querySelector("main");
+  const hero = documentNode.querySelector(".hero");
   const menuButton = documentNode.querySelector(".menu-button");
   const mobileNavigation = documentNode.querySelector(".mobile-nav");
   const reduceMotion = windowNode.matchMedia("(prefers-reduced-motion: reduce)");
+  const finePointer = windowNode.matchMedia("(pointer: fine)");
   let scrollFrame = 0;
+  let pointerFrame = 0;
+  let pointerX = 0;
+  let pointerY = 0;
 
   const paintScrollState = () => {
     scrollFrame = 0;
@@ -38,6 +43,54 @@ const initializeSite = (documentNode, windowNode) => {
   windowNode.addEventListener("resize", scheduleScrollPaint, { passive: true });
   reduceMotion.addEventListener("change", scheduleScrollPaint);
   paintScrollState();
+
+  const resetHeroDepth = () => {
+    if (pointerFrame !== 0) {
+      windowNode.cancelAnimationFrame(pointerFrame);
+      pointerFrame = 0;
+    }
+
+    root.style.setProperty("--hero-shift-x", "0px");
+    root.style.setProperty("--hero-shift-y", "0px");
+    root.style.setProperty("--signal-shift-x", "0px");
+    root.style.setProperty("--signal-shift-y", "0px");
+  };
+
+  const paintHeroDepth = () => {
+    pointerFrame = 0;
+    root.style.setProperty("--hero-shift-x", `${(-pointerX * 8).toFixed(2)}px`);
+    root.style.setProperty("--hero-shift-y", `${(-pointerY * 5).toFixed(2)}px`);
+    root.style.setProperty("--signal-shift-x", `${(pointerX * 11).toFixed(2)}px`);
+    root.style.setProperty("--signal-shift-y", `${(pointerY * 7).toFixed(2)}px`);
+  };
+
+  if (hero instanceof HTMLElement) {
+    hero.addEventListener(
+      "pointermove",
+      (event) => {
+        if (reduceMotion.matches || !finePointer.matches) {
+          return;
+        }
+
+        const bounds = hero.getBoundingClientRect();
+        pointerX = clamp(((event.clientX - bounds.left) / bounds.width) * 2 - 1, -1, 1);
+        pointerY = clamp(((event.clientY - bounds.top) / bounds.height) * 2 - 1, -1, 1);
+
+        if (pointerFrame === 0) {
+          pointerFrame = windowNode.requestAnimationFrame(paintHeroDepth);
+        }
+      },
+      { passive: true },
+    );
+
+    hero.addEventListener("pointerleave", resetHeroDepth, { passive: true });
+    finePointer.addEventListener("change", resetHeroDepth);
+    reduceMotion.addEventListener("change", (event) => {
+      if (event.matches) {
+        resetHeroDepth();
+      }
+    });
+  }
 
   const revealElements = Array.from(documentNode.querySelectorAll("[data-reveal]"));
   const motionScenes = Array.from(documentNode.querySelectorAll(".motion-scene"));
