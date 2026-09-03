@@ -7,21 +7,13 @@ const initializeSite = (documentNode, windowNode) => {
   const body = documentNode.body;
   const header = documentNode.querySelector(".site-header");
   const mainContent = documentNode.querySelector("main");
-  const hero = documentNode.querySelector(".hero");
   const menuButton = documentNode.querySelector(".menu-button");
   const mobileNavigation = documentNode.querySelector(".mobile-nav");
+  const ambientCanvas = documentNode.querySelector("#ambient-canvas");
   const reduceMotion = windowNode.matchMedia("(prefers-reduced-motion: reduce)");
-  const finePointer = windowNode.matchMedia("(pointer: fine)");
-  const scrollMotionSections = Array.from(documentNode.querySelectorAll("[data-chapter]"));
-  const visibleMotionSections = new Set();
+  const chapterSections = Array.from(documentNode.querySelectorAll("[data-chapter]"));
   let scrollFrame = 0;
-  let pointerFrame = 0;
-  let tiltFrame = 0;
-  let pointerX = 0;
-  let pointerY = 0;
-  let activeTiltElement = null;
-  let tiltX = 0;
-  let tiltY = 0;
+  let ambientScrollTarget = 0;
 
   const paintScrollState = () => {
     scrollFrame = 0;
@@ -32,33 +24,12 @@ const initializeSite = (documentNode, windowNode) => {
       availableDistance > 0 ? clamp((scrollTop / availableDistance) * 100, 0, 100) : 0;
     const heroOffset = reduceMotion.matches
       ? 0
-      : clamp(scrollTop * (windowNode.innerWidth < 760 ? 0.07 : 0.12), 0, 120);
+      : clamp(scrollTop * (windowNode.innerWidth < 760 ? 0.025 : 0.04), 0, 48);
 
     root.style.setProperty("--scroll-progress", `${progress}%`);
     root.style.setProperty("--hero-offset", `${heroOffset}px`);
+    ambientScrollTarget = progress / 100;
     header?.classList.toggle("is-scrolled", scrollTop > 24);
-
-    visibleMotionSections.forEach((section) => {
-      if (!(section instanceof HTMLElement)) {
-        return;
-      }
-
-      if (reduceMotion.matches) {
-        section.style.setProperty("--section-progress", "0.5");
-        section.style.setProperty("--section-shift", "0px");
-        return;
-      }
-
-      const bounds = section.getBoundingClientRect();
-      const sectionProgress = clamp(
-        (windowNode.innerHeight - bounds.top) / (windowNode.innerHeight + bounds.height),
-        0,
-        1,
-      );
-      const sectionShift = clamp((0.5 - sectionProgress) * 72, -36, 36);
-      section.style.setProperty("--section-progress", sectionProgress.toFixed(4));
-      section.style.setProperty("--section-shift", `${sectionShift.toFixed(2)}px`);
-    });
   };
 
   const scheduleScrollPaint = () => {
@@ -72,154 +43,227 @@ const initializeSite = (documentNode, windowNode) => {
   reduceMotion.addEventListener("change", scheduleScrollPaint);
   paintScrollState();
 
-  const resetHeroDepth = () => {
-    if (pointerFrame !== 0) {
-      windowNode.cancelAnimationFrame(pointerFrame);
-      pointerFrame = 0;
-    }
+  if (ambientCanvas instanceof HTMLCanvasElement) {
+    const ambientContext = ambientCanvas.getContext("2d", { alpha: true });
 
-    root.style.setProperty("--hero-shift-x", "0px");
-    root.style.setProperty("--hero-shift-y", "0px");
-    root.style.setProperty("--signal-shift-x", "0px");
-    root.style.setProperty("--signal-shift-y", "0px");
-  };
+    if (ambientContext) {
+      let ambientFrame = 0;
+      let resizeFrame = 0;
+      let lastPaintTime = 0;
+      let ambientWidth = 0;
+      let ambientHeight = 0;
+      let ambientScroll = 0;
+      let pointerX = 0.62;
+      let pointerY = 0.42;
+      let pointerTargetX = pointerX;
+      let pointerTargetY = pointerY;
+      let ambientGradients = [];
 
-  const paintHeroDepth = () => {
-    pointerFrame = 0;
-    root.style.setProperty("--hero-shift-x", `${(-pointerX * 8).toFixed(2)}px`);
-    root.style.setProperty("--hero-shift-y", `${(-pointerY * 5).toFixed(2)}px`);
-    root.style.setProperty("--signal-shift-x", `${(pointerX * 11).toFixed(2)}px`);
-    root.style.setProperty("--signal-shift-y", `${(pointerY * 7).toFixed(2)}px`);
-  };
+      const pointOnFlow = (progress, band, phase) => {
+        const direction = band % 2 === 0 ? 1 : -1;
+        const base = ambientHeight * (0.12 + band * 0.145);
+        const slope = ambientHeight * (0.08 + band * 0.012);
+        const amplitude = ambientHeight * (0.025 + band * 0.0035);
+        const drift = Math.sin(phase * 0.42 + band * 1.7) * ambientWidth * 0.018;
+        const pointerInfluence = (pointerX - 0.5) * ambientWidth * 0.028 * direction;
+        const scrollInfluence = (ambientScroll - 0.5) * ambientHeight * 0.11 * direction;
+        const x = progress * ambientWidth + drift + pointerInfluence;
+        const y =
+          base +
+          (progress - 0.5) * slope +
+          Math.sin(progress * Math.PI * 2.25 + phase * (0.72 + band * 0.035) + band) *
+            amplitude +
+          Math.sin(progress * Math.PI * 6.4 - phase * 0.38 + band * 0.72) *
+            amplitude *
+            0.28 +
+          (pointerY - 0.5) * ambientHeight * 0.04 * (1 - progress) +
+          scrollInfluence;
 
-  if (hero instanceof HTMLElement) {
-    hero.addEventListener(
-      "pointermove",
-      (event) => {
-        if (reduceMotion.matches || !finePointer.matches) {
+        return { x, y };
+      };
+
+      const buildGradient = (start, middle, finish) => {
+        const gradient = ambientContext.createLinearGradient(0, 0, ambientWidth, 0);
+        gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        gradient.addColorStop(0.22, start);
+        gradient.addColorStop(0.62, middle);
+        gradient.addColorStop(0.88, finish);
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+        return gradient;
+      };
+
+      const paintAmbientField = (timestamp, force = false) => {
+        ambientFrame = 0;
+
+        if (ambientWidth === 0 || ambientHeight === 0) {
           return;
         }
 
-        const bounds = hero.getBoundingClientRect();
-        pointerX = clamp(((event.clientX - bounds.left) / bounds.width) * 2 - 1, -1, 1);
-        pointerY = clamp(((event.clientY - bounds.top) / bounds.height) * 2 - 1, -1, 1);
-
-        if (pointerFrame === 0) {
-          pointerFrame = windowNode.requestAnimationFrame(paintHeroDepth);
+        const mobileFrameInterval = 1000 / 30;
+        if (
+          !force &&
+          ambientWidth < 760 &&
+          timestamp - lastPaintTime < mobileFrameInterval
+        ) {
+          ambientFrame = windowNode.requestAnimationFrame(paintAmbientField);
+          return;
         }
-      },
-      { passive: true },
-    );
 
-    hero.addEventListener("pointerleave", resetHeroDepth, { passive: true });
-    finePointer.addEventListener("change", resetHeroDepth);
-    reduceMotion.addEventListener("change", (event) => {
-      if (event.matches) {
-        resetHeroDepth();
-      }
-    });
-  }
+        lastPaintTime = timestamp;
+        ambientScroll += (ambientScrollTarget - ambientScroll) * 0.045;
+        pointerX += (pointerTargetX - pointerX) * 0.035;
+        pointerY += (pointerTargetY - pointerY) * 0.035;
 
-  if ("IntersectionObserver" in windowNode) {
-    const scrollMotionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            visibleMotionSections.add(entry.target);
-          } else {
-            visibleMotionSections.delete(entry.target);
+        const phase = reduceMotion.matches ? 5.2 : timestamp * 0.00028;
+        const bandCount = ambientWidth < 760 ? 4 : 6;
+        const segmentCount = ambientWidth < 760 ? 38 : 64;
+        const particleCount = ambientWidth < 760 ? 16 : 28;
+
+        ambientContext.clearRect(0, 0, ambientWidth, ambientHeight);
+        ambientContext.save();
+        ambientContext.globalCompositeOperation = "lighter";
+
+        for (let band = 0; band < bandCount; band += 1) {
+          const thickness = 15 + band * 4;
+          ambientContext.beginPath();
+
+          for (let segment = 0; segment <= segmentCount; segment += 1) {
+            const progress = segment / segmentCount;
+            const point = pointOnFlow(progress, band, phase);
+            const envelope = Math.sin(progress * Math.PI);
+            const y = point.y - thickness * envelope;
+
+            if (segment === 0) {
+              ambientContext.moveTo(point.x, y);
+            } else {
+              ambientContext.lineTo(point.x, y);
+            }
           }
-        });
-        scheduleScrollPaint();
-      },
-      { rootMargin: "24% 0px 24% 0px", threshold: 0 },
-    );
 
-    scrollMotionSections.forEach((section) => scrollMotionObserver.observe(section));
-  } else {
-    scrollMotionSections.forEach((section) => visibleMotionSections.add(section));
+          for (let segment = segmentCount; segment >= 0; segment -= 1) {
+            const progress = segment / segmentCount;
+            const point = pointOnFlow(progress, band, phase);
+            const envelope = Math.sin(progress * Math.PI);
+            ambientContext.lineTo(point.x, point.y + thickness * envelope);
+          }
+
+          ambientContext.closePath();
+          ambientContext.globalAlpha = band % 2 === 0 ? 0.24 : 0.16;
+          ambientContext.fillStyle = ambientGradients[band % ambientGradients.length];
+          ambientContext.fill();
+
+          ambientContext.beginPath();
+          for (let segment = 0; segment <= segmentCount; segment += 1) {
+            const point = pointOnFlow(segment / segmentCount, band, phase);
+            if (segment === 0) {
+              ambientContext.moveTo(point.x, point.y);
+            } else {
+              ambientContext.lineTo(point.x, point.y);
+            }
+          }
+          ambientContext.globalAlpha = 0.34 + band * 0.025;
+          ambientContext.strokeStyle = band % 3 === 1 ? "#d5a45c" : "#69bdf0";
+          ambientContext.lineWidth = 0.7 + band * 0.12;
+          ambientContext.stroke();
+        }
+
+        for (let index = 0; index < particleCount; index += 1) {
+          const band = index % bandCount;
+          const travel =
+            (index / particleCount + phase * (0.028 + (index % 4) * 0.0025)) % 1;
+          const point = pointOnFlow(travel, band, phase);
+          const pulse = 0.45 + Math.sin(phase * 2.2 + index) * 0.22;
+          ambientContext.beginPath();
+          ambientContext.arc(point.x, point.y, index % 5 === 0 ? 2.1 : 1.25, 0, Math.PI * 2);
+          ambientContext.globalAlpha = pulse;
+          ambientContext.fillStyle = index % 6 === 0 ? "#e1b66e" : "#8bd4ff";
+          ambientContext.fill();
+        }
+
+        ambientContext.restore();
+        root.classList.add("ambient-ready");
+
+        if (!reduceMotion.matches && !documentNode.hidden) {
+          ambientFrame = windowNode.requestAnimationFrame(paintAmbientField);
+        }
+      };
+
+      const resizeAmbientField = () => {
+        resizeFrame = 0;
+        if (ambientFrame !== 0) {
+          windowNode.cancelAnimationFrame(ambientFrame);
+          ambientFrame = 0;
+        }
+
+        ambientWidth = windowNode.innerWidth;
+        ambientHeight = windowNode.innerHeight;
+        const pixelRatio = Math.min(windowNode.devicePixelRatio || 1, ambientWidth < 760 ? 1 : 1.15);
+
+        ambientCanvas.width = Math.round(ambientWidth * pixelRatio);
+        ambientCanvas.height = Math.round(ambientHeight * pixelRatio);
+        ambientContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        ambientGradients = [
+          buildGradient(
+            "rgba(48, 129, 181, 0.08)",
+            "rgba(79, 181, 235, 0.32)",
+            "rgba(211, 164, 91, 0.1)",
+          ),
+          buildGradient(
+            "rgba(200, 151, 76, 0.04)",
+            "rgba(91, 150, 187, 0.22)",
+            "rgba(221, 174, 98, 0.24)",
+          ),
+        ];
+        paintAmbientField(windowNode.performance.now(), true);
+      };
+
+      const scheduleAmbientResize = () => {
+        if (resizeFrame === 0) {
+          resizeFrame = windowNode.requestAnimationFrame(resizeAmbientField);
+        }
+      };
+
+      windowNode.addEventListener(
+        "pointermove",
+        (event) => {
+          if (reduceMotion.matches) {
+            return;
+          }
+          pointerTargetX = clamp(event.clientX / windowNode.innerWidth, 0, 1);
+          pointerTargetY = clamp(event.clientY / windowNode.innerHeight, 0, 1);
+        },
+        { passive: true },
+      );
+      windowNode.addEventListener("resize", scheduleAmbientResize, { passive: true });
+      documentNode.addEventListener("visibilitychange", () => {
+        if (documentNode.hidden) {
+          if (ambientFrame !== 0) {
+            windowNode.cancelAnimationFrame(ambientFrame);
+            ambientFrame = 0;
+          }
+        } else if (!reduceMotion.matches && ambientFrame === 0) {
+          lastPaintTime = 0;
+          ambientFrame = windowNode.requestAnimationFrame(paintAmbientField);
+        }
+      });
+      reduceMotion.addEventListener("change", (event) => {
+        if (ambientFrame !== 0) {
+          windowNode.cancelAnimationFrame(ambientFrame);
+          ambientFrame = 0;
+        }
+        pointerTargetX = 0.62;
+        pointerTargetY = 0.42;
+        lastPaintTime = 0;
+        paintAmbientField(windowNode.performance.now(), true);
+        if (!event.matches && ambientFrame === 0) {
+          ambientFrame = windowNode.requestAnimationFrame(paintAmbientField);
+        }
+      });
+
+      resizeAmbientField();
+    }
   }
 
-  const tiltElements = Array.from(documentNode.querySelectorAll("[data-tilt]"));
-
-  const resetTilt = (element) => {
-    if (!(element instanceof HTMLElement)) {
-      return;
-    }
-    element.style.setProperty("--tilt-x", "0deg");
-    element.style.setProperty("--tilt-y", "0deg");
-    element.style.setProperty("--tilt-glow-x", "50%");
-    element.style.setProperty("--tilt-glow-y", "50%");
-  };
-
-  const resetAllTilts = () => {
-    if (tiltFrame !== 0) {
-      windowNode.cancelAnimationFrame(tiltFrame);
-      tiltFrame = 0;
-    }
-    activeTiltElement = null;
-    tiltElements.forEach(resetTilt);
-  };
-
-  const paintTilt = () => {
-    tiltFrame = 0;
-    if (!(activeTiltElement instanceof HTMLElement)) {
-      return;
-    }
-    activeTiltElement.style.setProperty("--tilt-x", `${tiltX.toFixed(2)}deg`);
-    activeTiltElement.style.setProperty("--tilt-y", `${tiltY.toFixed(2)}deg`);
-  };
-
-  tiltElements.forEach((element) => {
-    if (!(element instanceof HTMLElement)) {
-      return;
-    }
-
-    element.addEventListener(
-      "pointermove",
-      (event) => {
-        if (reduceMotion.matches || !finePointer.matches) {
-          return;
-        }
-
-        const bounds = element.getBoundingClientRect();
-        const localX = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
-        const localY = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
-        activeTiltElement = element;
-        tiltX = (localX - 0.5) * 4.4;
-        tiltY = (0.5 - localY) * 4;
-        element.style.setProperty("--tilt-glow-x", `${(localX * 100).toFixed(1)}%`);
-        element.style.setProperty("--tilt-glow-y", `${(localY * 100).toFixed(1)}%`);
-
-        if (tiltFrame === 0) {
-          tiltFrame = windowNode.requestAnimationFrame(paintTilt);
-        }
-      },
-      { passive: true },
-    );
-
-    element.addEventListener(
-      "pointerleave",
-      () => {
-        if (activeTiltElement === element && tiltFrame !== 0) {
-          windowNode.cancelAnimationFrame(tiltFrame);
-          tiltFrame = 0;
-        }
-        activeTiltElement = null;
-        resetTilt(element);
-      },
-      { passive: true },
-    );
-  });
-
-  finePointer.addEventListener("change", resetAllTilts);
-  reduceMotion.addEventListener("change", (event) => {
-    if (event.matches) {
-      resetAllTilts();
-    }
-  });
-
-  const chapterSections = scrollMotionSections;
   const chapterIndex = documentNode.querySelector(".chapter-rail-index");
   const chapterLabel = documentNode.querySelector(".chapter-rail-label");
   const chapterNavigationLinks = Array.from(
