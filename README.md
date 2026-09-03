@@ -1,7 +1,10 @@
 # Kunal Singh Finance Portfolio
 
-Static GitHub Pages portfolio focused on portfolio analytics, investment reporting, risk, and
-financial data systems.
+Dependency-free GitHub Pages portfolio focused on investment research, portfolio analytics,
+financial risk, and reproducible data systems.
+
+The site uses semantic HTML, a responsive graphite visual system, progressive motion with a
+complete reduced-motion fallback, and responsive WebP assets with PNG fallbacks.
 
 ## Local Preview
 

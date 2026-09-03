@@ -1,301 +1,215 @@
 "use strict";
 
-/**
- * @param {number} value
- * @param {number} minimum
- * @param {number} maximum
- * @returns {number}
- */
 const clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
 
-/**
- * @param {number} scrollTop
- * @param {number} scrollHeight
- * @param {number} viewportHeight
- * @returns {number}
- */
-const calculateScrollProgress = (scrollTop, scrollHeight, viewportHeight) => {
-  const availableDistance = scrollHeight - viewportHeight;
-
-  if (availableDistance <= 0) {
-    return 0;
-  }
-
-  return clamp((scrollTop / availableDistance) * 100, 0, 100);
-};
-
-/**
- * @param {number} scrollTop
- * @param {number} viewportHeight
- * @returns {number}
- */
-const calculateHeroOffset = (scrollTop, viewportHeight) => {
-  const maximumOffset = Math.min(viewportHeight * 0.16, 140);
-  return clamp(scrollTop * 0.16, 0, maximumOffset);
-};
-
-/**
- * @param {HTMLElement} root
- * @param {number} progress
- * @param {number} heroOffset
- * @returns {void}
- */
-const updateScrollStyles = (root, progress, heroOffset) => {
-  root.style.setProperty("--scroll-progress", `${progress}%`);
-  root.style.setProperty("--hero-offset", `${heroOffset}px`);
-};
-
-/**
- * @param {HTMLElement} header
- * @param {number} scrollTop
- * @returns {void}
- */
-const updateHeader = (header, scrollTop) => {
-  header.classList.toggle("is-scrolled", scrollTop > 24);
-};
-
-/**
- * @param {HTMLElement} body
- * @param {HTMLButtonElement} button
- * @param {HTMLElement} navigation
- * @param {boolean} isOpen
- * @returns {void}
- */
-const setMenuState = (body, button, navigation, isOpen) => {
-  body.classList.toggle("menu-open", isOpen);
-  button.setAttribute("aria-expanded", String(isOpen));
-  button.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
-  navigation.classList.toggle("is-open", isOpen);
-};
-
-/**
- * @param {Element} element
- * @returns {void}
- */
-const revealElement = (element) => {
-  element.classList.add("is-visible");
-};
-
-/**
- * @typedef {Object} CredentialData
- * @property {string} issuer
- * @property {string} title
- * @property {string} detail
- * @property {string} image
- */
-
-/**
- * @param {HTMLButtonElement} trigger
- * @returns {CredentialData}
- */
-const getCredentialData = (trigger) => {
-  const issuer = trigger.dataset.issuer;
-  const title = trigger.dataset.title;
-  const detail = trigger.dataset.detail;
-  const image = trigger.dataset.image;
-
-  if (issuer === undefined || title === undefined || detail === undefined || image === undefined) {
-    throw new TypeError(`Credential trigger is missing required data: ${trigger.textContent}`);
-  }
-
-  return {
-    issuer,
-    title,
-    detail,
-    image,
-  };
-};
-
-/**
- * @param {HTMLImageElement} imageElement
- * @param {HTMLElement} issuerElement
- * @param {HTMLElement} titleElement
- * @param {HTMLElement} detailElement
- * @param {HTMLAnchorElement} requestElement
- * @param {CredentialData} data
- * @returns {void}
- */
-const populateCredentialDialog = (
-  imageElement,
-  issuerElement,
-  titleElement,
-  detailElement,
-  requestElement,
-  data,
-) => {
-  imageElement.src = data.image;
-  imageElement.alt = `${data.title} certificate awarded to Kunal Singh`;
-  issuerElement.textContent = data.issuer;
-  titleElement.textContent = data.title;
-  detailElement.textContent = data.detail;
-  requestElement.href =
-    `mailto:ks0000477@gmail.com?subject=${encodeURIComponent(`Credential Verification - ${data.title}`)}`;
-};
-
-/**
- * @param {NodeListOf<Element>} elements
- * @returns {IntersectionObserver}
- */
-const observeReveals = (elements) => {
-  const observer = new IntersectionObserver(
-    (entries, activeObserver) => {
-      entries
-        .filter((entry) => entry.isIntersecting)
-        .forEach((entry) => {
-          revealElement(entry.target);
-          activeObserver.unobserve(entry.target);
-        });
-    },
-    {
-      root: null,
-      rootMargin: "0px 0px -12% 0px",
-      threshold: 0.08,
-    },
-  );
-
-  elements.forEach((element) => observer.observe(element));
-  return observer;
-};
-
-/**
- * @param {Document} documentNode
- * @param {Window} windowNode
- * @returns {void}
- */
 const initializeSite = (documentNode, windowNode) => {
   const root = documentNode.documentElement;
   const body = documentNode.body;
   const header = documentNode.querySelector(".site-header");
+  const mainContent = documentNode.querySelector("main");
   const menuButton = documentNode.querySelector(".menu-button");
   const mobileNavigation = documentNode.querySelector(".mobile-nav");
-  const revealElements = documentNode.querySelectorAll("[data-reveal]");
+  const reduceMotion = windowNode.matchMedia("(prefers-reduced-motion: reduce)");
+  let scrollFrame = 0;
+
+  const paintScrollState = () => {
+    scrollFrame = 0;
+
+    const scrollTop = windowNode.scrollY;
+    const availableDistance = root.scrollHeight - windowNode.innerHeight;
+    const progress =
+      availableDistance > 0 ? clamp((scrollTop / availableDistance) * 100, 0, 100) : 0;
+    const heroOffset = reduceMotion.matches
+      ? 0
+      : clamp(scrollTop * (windowNode.innerWidth < 760 ? 0.07 : 0.12), 0, 120);
+
+    root.style.setProperty("--scroll-progress", `${progress}%`);
+    root.style.setProperty("--hero-offset", `${heroOffset}px`);
+    header?.classList.toggle("is-scrolled", scrollTop > 24);
+  };
+
+  const scheduleScrollPaint = () => {
+    if (scrollFrame === 0) {
+      scrollFrame = windowNode.requestAnimationFrame(paintScrollState);
+    }
+  };
+
+  windowNode.addEventListener("scroll", scheduleScrollPaint, { passive: true });
+  windowNode.addEventListener("resize", scheduleScrollPaint, { passive: true });
+  reduceMotion.addEventListener("change", scheduleScrollPaint);
+  paintScrollState();
+
+  const revealElements = Array.from(documentNode.querySelectorAll("[data-reveal]"));
+  const motionScenes = Array.from(documentNode.querySelectorAll(".motion-scene"));
+
+  const revealEverything = () => {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+    motionScenes.forEach((element) => element.classList.add("is-active"));
+  };
+
+  if (reduceMotion.matches || !("IntersectionObserver" in windowNode)) {
+    revealEverything();
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries
+          .filter((entry) => entry.isIntersecting)
+          .forEach((entry) => {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+      },
+      {
+        rootMargin: "0px 0px -9% 0px",
+        threshold: 0.07,
+      },
+    );
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+
+    const sceneObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries
+          .filter((entry) => entry.isIntersecting)
+          .forEach((entry) => {
+            entry.target.classList.add("is-active");
+            observer.unobserve(entry.target);
+          });
+      },
+      {
+        rootMargin: "-8% 0px -8% 0px",
+        threshold: 0.18,
+      },
+    );
+
+    motionScenes.forEach((scene) => sceneObserver.observe(scene));
+
+    reduceMotion.addEventListener("change", (event) => {
+      if (event.matches) {
+        revealEverything();
+        revealObserver.disconnect();
+        sceneObserver.disconnect();
+      }
+    });
+  }
+
+  if (
+    menuButton instanceof HTMLButtonElement &&
+    mobileNavigation instanceof HTMLElement
+  ) {
+    const navigationLinks = Array.from(mobileNavigation.querySelectorAll("a"));
+
+    const setMenuState = (isOpen, returnFocus = false) => {
+      body.classList.toggle("menu-open", isOpen);
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+      mobileNavigation.classList.toggle("is-open", isOpen);
+      mobileNavigation.setAttribute("aria-hidden", String(!isOpen));
+      mobileNavigation.inert = !isOpen;
+      if (mainContent instanceof HTMLElement) {
+        mainContent.inert = isOpen;
+      }
+
+      if (isOpen) {
+        windowNode.requestAnimationFrame(() => navigationLinks[0]?.focus());
+      } else if (returnFocus) {
+        menuButton.focus();
+      }
+    };
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+      setMenuState(!isOpen, isOpen);
+    });
+
+    navigationLinks.forEach((link) => {
+      link.addEventListener("click", () => setMenuState(false));
+    });
+
+    windowNode.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+        setMenuState(false, true);
+      }
+    });
+
+    windowNode.addEventListener(
+      "resize",
+      () => {
+        if (
+          windowNode.innerWidth > 1180 &&
+          menuButton.getAttribute("aria-expanded") === "true"
+        ) {
+          setMenuState(false);
+        }
+      },
+      { passive: true },
+    );
+  }
+
   const credentialDialog = documentNode.querySelector("#credential-dialog");
-  const credentialDialogClose = documentNode.querySelector(".credential-dialog-close");
-  const credentialDialogImage = documentNode.querySelector("#credential-dialog-image");
-  const credentialDialogIssuer = documentNode.querySelector("#credential-dialog-issuer");
-  const credentialDialogTitle = documentNode.querySelector("#credential-dialog-title");
-  const credentialDialogDetail = documentNode.querySelector("#credential-dialog-detail");
-  const credentialDialogRequest = documentNode.querySelector("#credential-dialog-request");
-  const credentialTriggers = documentNode.querySelectorAll(".credential-trigger");
-  /** @type {HTMLButtonElement | null} */
+  const dialogCloseButton = documentNode.querySelector(".credential-dialog-close");
+  const dialogImage = documentNode.querySelector("#credential-dialog-image");
+  const dialogIssuer = documentNode.querySelector("#credential-dialog-issuer");
+  const dialogTitle = documentNode.querySelector("#credential-dialog-title");
+  const dialogDetail = documentNode.querySelector("#credential-dialog-detail");
+  const dialogRequest = documentNode.querySelector("#credential-dialog-request");
+  const credentialTriggers = Array.from(documentNode.querySelectorAll(".credential-trigger"));
   let activeCredentialTrigger = null;
 
-  if (!(header instanceof HTMLElement)) {
-    throw new TypeError("Expected .site-header to be an HTMLElement.");
-  }
+  const dialogIsReady =
+    credentialDialog instanceof HTMLDialogElement &&
+    dialogCloseButton instanceof HTMLButtonElement &&
+    dialogImage instanceof HTMLImageElement &&
+    dialogIssuer instanceof HTMLElement &&
+    dialogTitle instanceof HTMLElement &&
+    dialogDetail instanceof HTMLElement &&
+    dialogRequest instanceof HTMLAnchorElement;
 
-  if (!(menuButton instanceof HTMLButtonElement)) {
-    throw new TypeError("Expected .menu-button to be an HTMLButtonElement.");
-  }
+  if (dialogIsReady) {
+    credentialTriggers.forEach((trigger) => {
+      if (!(trigger instanceof HTMLButtonElement)) {
+        return;
+      }
 
-  if (!(mobileNavigation instanceof HTMLElement)) {
-    throw new TypeError("Expected .mobile-nav to be an HTMLElement.");
-  }
+      trigger.addEventListener("click", () => {
+        const { issuer, title, detail, image } = trigger.dataset;
 
-  if (!(credentialDialog instanceof HTMLDialogElement)) {
-    throw new TypeError("Expected #credential-dialog to be an HTMLDialogElement.");
-  }
+        if (!issuer || !title || !detail || !image) {
+          return;
+        }
 
-  if (!(credentialDialogClose instanceof HTMLButtonElement)) {
-    throw new TypeError("Expected .credential-dialog-close to be an HTMLButtonElement.");
-  }
-
-  if (!(credentialDialogImage instanceof HTMLImageElement)) {
-    throw new TypeError("Expected #credential-dialog-image to be an HTMLImageElement.");
-  }
-
-  if (!(credentialDialogIssuer instanceof HTMLElement)) {
-    throw new TypeError("Expected #credential-dialog-issuer to be an HTMLElement.");
-  }
-
-  if (!(credentialDialogTitle instanceof HTMLElement)) {
-    throw new TypeError("Expected #credential-dialog-title to be an HTMLElement.");
-  }
-
-  if (!(credentialDialogDetail instanceof HTMLElement)) {
-    throw new TypeError("Expected #credential-dialog-detail to be an HTMLElement.");
-  }
-
-  if (!(credentialDialogRequest instanceof HTMLAnchorElement)) {
-    throw new TypeError("Expected #credential-dialog-request to be an HTMLAnchorElement.");
-  }
-
-  const updateScrollState = () => {
-    const scrollTop = windowNode.scrollY;
-    const progress = calculateScrollProgress(
-      scrollTop,
-      documentNode.documentElement.scrollHeight,
-      windowNode.innerHeight,
-    );
-    const heroOffset = calculateHeroOffset(scrollTop, windowNode.innerHeight);
-
-    updateScrollStyles(root, progress, heroOffset);
-    updateHeader(header, scrollTop);
-  };
-
-  const closeMenu = () => {
-    setMenuState(body, menuButton, mobileNavigation, false);
-  };
-
-  menuButton.addEventListener("click", () => {
-    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-    setMenuState(body, menuButton, mobileNavigation, !isOpen);
-  });
-
-  mobileNavigation.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", closeMenu);
-  });
-
-  credentialTriggers.forEach((element) => {
-    if (!(element instanceof HTMLButtonElement)) {
-      throw new TypeError("Expected each .credential-trigger to be an HTMLButtonElement.");
-    }
-
-    element.addEventListener("click", () => {
-      const credentialData = getCredentialData(element);
-
-      populateCredentialDialog(
-        credentialDialogImage,
-        credentialDialogIssuer,
-        credentialDialogTitle,
-        credentialDialogDetail,
-        credentialDialogRequest,
-        credentialData,
-      );
-      activeCredentialTrigger = element;
-      body.classList.add("dialog-open");
-      credentialDialog.showModal();
+        dialogImage.src = image;
+        dialogImage.alt = `${title} certificate awarded to Kunal Singh`;
+        dialogImage.decoding = "async";
+        dialogIssuer.textContent = issuer;
+        dialogTitle.textContent = title;
+        dialogDetail.textContent = detail;
+        dialogRequest.href =
+          `mailto:ks0000477@gmail.com?subject=${encodeURIComponent(
+            `Credential Verification - ${title}`,
+          )}`;
+        activeCredentialTrigger = trigger;
+        body.classList.add("dialog-open");
+        credentialDialog.showModal();
+      });
     });
-  });
 
-  credentialDialogClose.addEventListener("click", () => {
-    credentialDialog.close();
-  });
+    dialogCloseButton.addEventListener("click", () => credentialDialog.close());
 
-  credentialDialog.addEventListener("click", (event) => {
-    if (event.target === credentialDialog) {
-      credentialDialog.close();
-    }
-  });
+    credentialDialog.addEventListener("click", (event) => {
+      if (event.target === credentialDialog) {
+        credentialDialog.close();
+      }
+    });
 
-  credentialDialog.addEventListener("close", () => {
-    body.classList.remove("dialog-open");
-    credentialDialogImage.removeAttribute("src");
-    activeCredentialTrigger?.focus();
-    activeCredentialTrigger = null;
-  });
-
-  windowNode.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeMenu();
-    }
-  });
-
-  windowNode.addEventListener("scroll", updateScrollState, { passive: true });
-  windowNode.addEventListener("resize", updateScrollState);
-
-  observeReveals(revealElements);
-  updateScrollState();
+    credentialDialog.addEventListener("close", () => {
+      body.classList.remove("dialog-open");
+      dialogImage.removeAttribute("src");
+      dialogImage.alt = "";
+      activeCredentialTrigger?.focus();
+      activeCredentialTrigger = null;
+    });
+  }
 };
 
 initializeSite(document, window);
