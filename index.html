@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#030507">
+    <meta name="theme-color" content="#05070a">
     <meta
       name="description"
-      content="Kunal Singh builds Wall Street-ready portfolio analytics, investment reporting, risk, and financial data workflows."
+      content="Kunal Singh combines public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
     >
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kunal Singh Finance Portfolio">
-    <meta property="og:title" content="Kunal Singh | Finance & Portfolio Analytics">
+    <meta property="og:title" content="Kunal Singh | Investment Management, Research & Portfolio Analytics">
     <meta
       property="og:description"
-      content="Institutional portfolio analytics, investment reporting, risk, and financial data workflows."
+      content="Public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
     >
     <meta property="og:url" content="https://kunalsingh-finance.github.io/kunal-singh-finance-site/">
     <meta
@@ -23,19 +23,19 @@
     <meta property="og:image:width" content="1672">
     <meta property="og:image:height" content="941">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kunal Singh | Finance & Portfolio Analytics">
+    <meta name="twitter:title" content="Kunal Singh | Investment Management, Research & Portfolio Analytics">
     <meta
       name="twitter:description"
-      content="Institutional portfolio analytics, investment reporting, risk, and financial data workflows."
+      content="Public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
     >
     <meta
       name="twitter:image"
       content="https://kunalsingh-finance.github.io/kunal-singh-finance-site/assets/wall-street-hero.png"
     >
-    <title>Kunal Singh | Finance & Portfolio Analytics</title>
+    <title>Kunal Singh | Investment Management, Research & Portfolio Analytics</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-    <link rel="preload" href="assets/wall-street-hero.png" as="image" type="image/png">
     <link rel="stylesheet" href="styles.css">
+    <script>document.documentElement.classList.add("js");</script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -43,7 +43,7 @@
         "name": "Kunal Singh",
         "url": "https://kunalsingh-finance.github.io/kunal-singh-finance-site/",
         "image": "https://kunalsingh-finance.github.io/kunal-singh-finance-site/assets/kunal-singh-headshot-2026.png",
-        "jobTitle": "Finance and Portfolio Analytics Professional",
+        "jobTitle": "Student Portfolio Manager",
         "email": "mailto:ks0000477@gmail.com",
         "alumniOf": {
           "@type": "CollegeOrUniversity",
@@ -58,19 +58,19 @@
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <canvas class="ambient-canvas" id="ambient-canvas" aria-hidden="true"></canvas>
+    <div class="ambient-wash" aria-hidden="true"></div>
     <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
     <header class="site-header">
       <a class="wordmark" href="#top" aria-label="Kunal Singh home">
         <span class="wordmark-name">KUNAL SINGH</span>
-        <span class="wordmark-role">PORTFOLIO / MARKETS</span>
+        <span class="wordmark-role">INVESTMENT / RESEARCH / RISK</span>
       </a>
 
       <nav class="desktop-nav" aria-label="Primary navigation">
-        <a href="#mission">Approach</a>
-        <a href="#work">Work</a>
-        <a href="#projects">Projects</a>
         <a href="#portfolio">Portfolio</a>
+        <a href="#work">Research</a>
         <a href="#experience">Experience</a>
         <a href="#credentials">Credentials</a>
         <a href="#contact">Contact</a>
@@ -88,496 +88,426 @@
         <span></span>
       </button>
 
-      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
-        <a href="#mission">Approach</a>
-        <a href="#work">Work</a>
-        <a href="#projects">Projects</a>
+      <nav
+        class="mobile-nav"
+        id="mobile-nav"
+        aria-label="Mobile navigation"
+        aria-hidden="true"
+        inert
+      >
         <a href="#portfolio">Portfolio</a>
+        <a href="#work">Research</a>
         <a href="#experience">Experience</a>
         <a href="#credentials">Credentials</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
-    <main id="main">
-      <section class="hero full-screen" id="top">
-        <div class="hero-media" aria-hidden="true"></div>
-        <div class="hero-shade" aria-hidden="true"></div>
-        <div class="section-content hero-content" data-reveal>
-          <p class="overline">Portfolio analytics / investment intelligence</p>
-          <h1>Built for the markets.</h1>
-          <p class="hero-summary">
-            I build portfolio analytics, investment reporting, risk, and financial data
-            workflows designed for clear decisions and reliable execution.
-          </p>
-          <a class="outline-button" href="#work">
-            View selected work
-            <span aria-hidden="true">↗</span>
-          </a>
+    <main id="main" tabindex="-1">
+      <section class="hero" id="top" data-chapter="Opening" data-chapter-index="01">
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-signal-field" aria-hidden="true"><span></span><span></span></div>
+
+        <div class="section-shell hero-layout">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Investment management / public equities / portfolio analytics</p>
+            <h1 aria-label="Research the thesis. Size the risk. Measure the outcome.">
+              <span class="hero-line" aria-hidden="true"><span>Research the thesis.</span></span>
+              <span class="hero-line" aria-hidden="true"><span>Size the risk.</span></span>
+              <span class="hero-line" aria-hidden="true"><span>Measure the outcome.</span></span>
+            </h1>
+            <p class="hero-summary">
+              I research public markets, manage portfolio risk, and build the analytics that
+              connect a thesis to position sizing, performance, and review.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#portfolio">
+                View portfolio case
+                <span aria-hidden="true">↘</span>
+              </a>
+              <a class="text-link" href="#work">Research <span aria-hidden="true">↓</span></a>
+              <a class="text-link" href="#contact">Contact <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+
+          <aside
+            class="hero-book motion-scene"
+            data-reveal
+            aria-label="Self-directed managed portfolio case snapshot"
+          >
+            <div class="hero-book-header">
+              <span><i aria-hidden="true"></i> Portfolio review</span>
+              <span>12 months</span>
+            </div>
+            <div class="hero-book-return">
+              <span>Period return</span>
+              <strong><span data-count-to="162.09" data-count-decimals="2">162.09</span>%</strong>
+              <small>June 2025 — June 2026</small>
+            </div>
+            <svg class="hero-book-chart" viewBox="0 0 520 178" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="hero-book-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#79c9ff" stop-opacity="0.28"></stop>
+                  <stop offset="100%" stop-color="#79c9ff" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="hero-book-line" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#79c9ff"></stop>
+                  <stop offset="100%" stop-color="#d7a85b"></stop>
+                </linearGradient>
+              </defs>
+              <path class="hero-book-grid" d="M8 35H512 M8 89H512 M8 143H512"></path>
+              <path
+                class="hero-book-area"
+                d="M8 154 C65 151, 91 143, 124 133 S185 111, 226 104 S282 88, 324 66 S388 54, 421 37 S474 27, 512 14 L512 170 L8 170 Z"
+              ></path>
+              <path
+                class="hero-book-line"
+                d="M8 154 C65 151, 91 143, 124 133 S185 111, 226 104 S282 88, 324 66 S388 54, 421 37 S474 27, 512 14"
+              ></path>
+              <circle class="hero-book-endpoint" cx="512" cy="14" r="5"></circle>
+            </svg>
+            <div class="hero-book-metrics">
+              <div><span>Beginning NAV</span><strong>$1.07M</strong></div>
+              <div><span>Ending NAV</span><strong>$2.81M</strong></div>
+              <div><span>Net external flow</span><strong>$0</strong></div>
+            </div>
+            <div class="hero-book-footer">
+              <p>Rounded IBKR PortfolioAnalyst figures. Recruiting discussion only.</p>
+              <a href="#portfolio">Open case study <span aria-hidden="true">↘</span></a>
+            </div>
+          </aside>
+
+          <div class="hero-capabilities" aria-label="Core disciplines" data-reveal>
+            <article>
+              <span>01</span>
+              <div>
+                <strong>Security research</strong>
+                <p>Fundamentals, catalysts, and evidence.</p>
+              </div>
+            </article>
+            <article>
+              <span>02</span>
+              <div>
+                <strong>Portfolio construction</strong>
+                <p>Position sizing, exposure, and cash.</p>
+              </div>
+            </article>
+            <article>
+              <span>03</span>
+              <div>
+                <strong>Risk &amp; attribution</strong>
+                <p>Explain return, downside, and drift.</p>
+              </div>
+            </article>
+          </div>
         </div>
-        <a class="scroll-cue" href="#mission" aria-label="Scroll to approach">
-          <span>Scroll</span>
+
+        <a class="scroll-cue" href="#mission" aria-label="Scroll to overview">
+          <span>Explore</span>
           <i aria-hidden="true"></i>
         </a>
       </section>
 
-      <div class="market-rail" aria-hidden="true">
-        <div class="market-rail-track">
-          <span>Portfolio Analytics</span>
-          <span>Performance Attribution</span>
-          <span>Risk Controls</span>
-          <span>Asset Allocation</span>
-          <span>Investment Operations</span>
-          <span>Python + SQL</span>
-          <span>Portfolio Analytics</span>
-          <span>Performance Attribution</span>
-          <span>Risk Controls</span>
-          <span>Asset Allocation</span>
-          <span>Investment Operations</span>
-          <span>Python + SQL</span>
-        </div>
-      </div>
-
-      <section class="mission-section" id="mission">
-        <div class="section-shell mission-grid">
-          <div data-reveal>
-            <p class="overline">Investment approach</p>
-            <h2>Built for disciplined investment decisions.</h2>
+      <section class="overview-section" id="mission" data-chapter="Operating standard" data-chapter-index="02">
+        <div class="section-shell overview-layout">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Investment philosophy</p>
+            <h2>A repeatable process from idea to attribution.</h2>
           </div>
-          <div class="mission-copy" data-reveal>
+          <div class="overview-copy" data-reveal>
             <p>
-              My work connects investment judgment with reporting controls and technical
-              execution. The objective is simple: make complex portfolio information easier to
-              validate, explain, and act on.
+              I start with the thesis, define the evidence and disconfirming signals, size
+              exposure within risk constraints, and review what actually drove return. Research
+              is only useful when it can survive a portfolio decision.
             </p>
-            <div class="capability-list" aria-label="Core capabilities">
+            <div class="capability-pills" aria-label="Core capabilities">
+              <span>Fundamental research</span>
+              <span>Security selection</span>
               <span>Portfolio construction</span>
+              <span>Position sizing</span>
               <span>Performance attribution</span>
-              <span>Risk analytics</span>
-              <span>Investment operations</span>
-              <span>Python + SQL automation</span>
+              <span>Risk controls</span>
             </div>
           </div>
         </div>
 
-        <div class="metrics section-shell" aria-label="Professional metrics">
+        <div class="section-shell proof-grid" aria-label="Selected project scale">
           <article data-reveal>
-            <strong>47</strong>
+            <strong data-count-to="698804" data-count-grouping>698,804</strong>
+            <span>governed bank-quarter rows</span>
+          </article>
+          <article data-reveal>
+            <strong data-count-to="65">65</strong>
+            <span>public-data risk indicators</span>
+          </article>
+          <article data-reveal>
+            <strong><span data-count-to="4.09" data-count-decimals="2">4.09</span>M</strong>
+            <span>stock-month observations analyzed</span>
+          </article>
+          <article data-reveal>
+            <strong data-count-to="47">47</strong>
             <span>PBOR workflow checks</span>
           </article>
-          <article data-reveal>
-            <strong>16</strong>
-            <span>allocation engine tests</span>
-          </article>
-          <article data-reveal>
-            <strong>4.09M</strong>
-            <span>stock-month observations</span>
-          </article>
-          <article data-reveal>
-            <strong>1,500+</strong>
-            <span>company records standardized</span>
-          </article>
         </div>
       </section>
 
-      <section class="project project-desk full-screen" id="work">
-        <div class="project-media trading-media" aria-hidden="true"></div>
-        <div class="project-shade shade-right" aria-hidden="true"></div>
-        <div class="section-content project-content project-content-right" data-reveal>
-          <p class="overline">Selected work 01</p>
-          <h2>PBOR performance reporting.</h2>
-          <p>
-            A month-end control workflow for returns, attribution, reconciliation breaks,
-            quality checks, sign-off, and executive-ready reporting.
-          </p>
-          <div class="project-tags">
-            <span>Python</span>
-            <span>SQLite</span>
-            <span>Excel</span>
-            <span>Reporting controls</span>
-          </div>
-          <a
-            class="outline-button"
-            href="https://github.com/kunalsingh-finance/PBOR"
-            target="_blank"
-            rel="noopener"
-          >
-            View repository
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="project project-allocation full-screen">
-        <div class="allocation-visual" aria-hidden="true">
-          <div class="allocation-grid"></div>
-          <div class="frontier-line"></div>
-          <span class="allocation-point point-one"></span>
-          <span class="allocation-point point-two"></span>
-          <span class="allocation-point point-three"></span>
-          <span class="allocation-point point-four"></span>
-          <div class="allocation-label">
-            <span>IPS</span>
-            <strong>RISK / RETURN</strong>
-          </div>
-        </div>
-        <div class="section-content project-content" data-reveal>
-          <p class="overline">Selected work 02</p>
-          <h2>IPS-driven asset allocation.</h2>
-          <p>
-            Portfolio construction under real policy constraints, with benchmark comparison,
-            factor diagnostics, stress testing, and investment committee reporting.
-          </p>
-          <div class="project-tags">
-            <span>Optimization</span>
-            <span>Risk budgeting</span>
-            <span>Stress testing</span>
-            <span>Reporting</span>
-          </div>
-          <a
-            class="outline-button"
-            href="https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine"
-            target="_blank"
-            rel="noopener"
-          >
-            View repository
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="project project-black-litterman full-screen">
-        <div class="signal-grid-visual" aria-hidden="true">
-          <span style="--x: 8%; --h: 34%; --delay: 0s"></span>
-          <span style="--x: 19%; --h: 58%; --delay: .2s"></span>
-          <span style="--x: 30%; --h: 46%; --delay: .4s"></span>
-          <span style="--x: 41%; --h: 73%; --delay: .1s"></span>
-          <span style="--x: 52%; --h: 41%; --delay: .5s"></span>
-          <span style="--x: 63%; --h: 66%; --delay: .3s"></span>
-          <span style="--x: 74%; --h: 52%; --delay: .6s"></span>
-          <span style="--x: 85%; --h: 78%; --delay: .15s"></span>
-        </div>
-        <div class="section-content project-content project-content-right" data-reveal>
-          <p class="overline">Selected work 03</p>
-          <h2>Black-Litterman optimizer.</h2>
-          <p>
-            A public-equity workflow combining benchmark-implied priors, analyst views,
-            posterior returns, constrained optimization, and transparent risk contributions.
-          </p>
-          <div class="project-tags">
-            <span>Public equities</span>
-            <span>Bayesian views</span>
-            <span>Max-Sharpe</span>
-            <span>Risk contribution</span>
-          </div>
-          <a
-            class="outline-button"
-            href="https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer"
-            target="_blank"
-            rel="noopener"
-          >
-            View repository
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="project project-nav full-screen">
-        <div class="ledger-visual" aria-hidden="true">
-          <div class="ledger-header"><span></span><span></span><span></span></div>
-          <div class="ledger-row"><span></span><span></span><span></span></div>
-          <div class="ledger-row"><span></span><span></span><span></span></div>
-          <div class="ledger-row"><span></span><span></span><span></span></div>
-          <div class="ledger-row"><span></span><span></span><span></span></div>
-          <div class="ledger-row"><span></span><span></span><span></span></div>
-          <div class="ledger-match"></div>
-        </div>
-        <div class="section-content project-content" data-reveal>
-          <p class="overline">Selected work 04</p>
-          <h2>Fund NAV reconciliation.</h2>
-          <p>
-            A reproducible daily fund-accounting workflow for NAV calculation, custodian
-            comparison, break severity, and operations-ready exception reporting.
-          </p>
-          <div class="project-tags">
-            <span>Fund accounting</span>
-            <span>Reconciliation</span>
-            <span>Exceptions</span>
-            <span>Data quality</span>
-          </div>
-          <a
-            class="outline-button"
-            href="https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine"
-            target="_blank"
-            rel="noopener"
-          >
-            View repository
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="project-index-section" id="projects">
+      <section class="work-section" id="work" data-chapter="Selected work" data-chapter-index="03">
         <div class="section-shell">
-          <div class="archive-heading" data-reveal>
+          <div class="work-heading" data-reveal>
             <div>
-              <p class="overline">Complete project index</p>
-              <h2>Public builds and analytical work.</h2>
+              <p class="eyebrow">Research infrastructure / selected work</p>
+              <h2>Research translated into portfolio decisions.</h2>
             </div>
             <p>
-              Public repositories link directly to reproducible code. Selected analytical work
-              is summarized without publishing restricted data, raw course files, or
-              unreviewed artifacts.
+              Five systems that show how I approach security selection, allocation, risk,
+              validation, and the measurement of investment outcomes.
             </p>
           </div>
 
-          <div class="archive-label" data-reveal>
-            <span>Public repositories</span>
-            <strong>07</strong>
-          </div>
-
-          <div class="repository-grid">
-            <article class="repository-card" data-reveal>
-              <span class="card-number">01</span>
-              <p>Investment operations</p>
-              <h3>PBOR Performance Reporting</h3>
-              <small>
-                Month-end returns, attribution, reconciliation, QA, sign-off, and executive
-                reporting workflow.
-              </small>
-              <div class="card-tags"><span>Python</span><span>SQLite</span><span>Controls</span></div>
-              <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener">
+          <div class="flagship-stack">
+          <article class="flagship flagship-bank motion-scene" data-reveal>
+            <div class="flagship-copy">
+              <div class="project-kicker">
+                <span>Featured 01</span>
+                <span>Regulatory risk / data governance</span>
+              </div>
+              <h3>U.S. Bank Risk Early-Warning & Regulatory Data Platform</h3>
+              <p>
+                A reproducible FDIC-data platform that turns quarterly filings into governed
+                quality controls, public-data CAMELS-style indicators, chronological
+                failure-risk rankings, and an explainable demonstration.
+              </p>
+              <dl class="project-facts">
+                <div><dt>Research panel</dt><dd>698,804 bank-quarters</dd></div>
+                <div><dt>Indicators</dt><dd>65 documented measures</dd></div>
+                <div><dt>Top-5% capture</dt><dd>10 of 17 failures</dd></div>
+              </dl>
+              <p class="project-caveat">
+                A review-ranking model—not a calibrated failure probability, official CAMELS
+                rating, or supervisory tool.
+              </p>
+              <a
+                class="project-link"
+                href="https://github.com/kunalsingh-finance/us-bank-risk-regulatory-data-platform"
+                target="_blank"
+                rel="noopener"
+              >
                 View repository <span aria-hidden="true">↗</span>
               </a>
-            </article>
+            </div>
 
-            <article class="repository-card" data-reveal>
-              <span class="card-number">02</span>
-              <p>Portfolio construction</p>
+            <div class="risk-console" aria-hidden="true" data-tilt>
+              <div class="visual-header">
+                <span>SYNTHETIC REVIEW QUEUE</span>
+                <span>2026 Q1</span>
+              </div>
+              <div class="risk-score">
+                <span>Same-quarter rank</span>
+                <strong>TOP 5%</strong>
+                <i></i>
+              </div>
+              <div class="risk-signals">
+                <div style="--signal: 82%"><span>Capital</span><i></i><b>C</b></div>
+                <div style="--signal: 68%"><span>Asset quality</span><i></i><b>A</b></div>
+                <div style="--signal: 74%"><span>Earnings</span><i></i><b>E</b></div>
+                <div style="--signal: 91%"><span>Liquidity</span><i></i><b>L</b></div>
+                <div style="--signal: 63%"><span>Sensitivity</span><i></i><b>S</b></div>
+              </div>
+              <div class="risk-footer">
+                <span>RANKING SIGNAL</span>
+                <span>HUMAN REVIEW REQUIRED</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="flagship flagship-gkx motion-scene" data-reveal>
+            <div class="research-console" role="group" aria-label="Locked-test model results" data-tilt>
+              <div class="visual-header">
+                <span>LOCKED TEST / 34 MONTHS</span>
+                <span>NO TEST TUNING</span>
+              </div>
+              <div class="model-result positive">
+                <span>GKX-formula OOS R²</span>
+                <strong>+1.4772%</strong>
+                <i style="--result: 78%"></i>
+              </div>
+              <div class="model-result negative">
+                <span>Mean monthly rank IC</span>
+                <strong>−0.0118</strong>
+                <i style="--result: 34%"></i>
+              </div>
+              <div class="model-result negative">
+                <span>D10−D1 monthly return</span>
+                <strong>−0.3749%</strong>
+                <i style="--result: 51%"></i>
+              </div>
+              <svg class="research-line" viewBox="0 0 620 170" aria-hidden="true" focusable="false">
+                <path class="research-grid" d="M0 25H620 M0 85H620 M0 145H620"></path>
+                <path
+                  class="research-path"
+                  d="M8 54 C70 40, 104 70, 158 61 S252 45, 303 79 S404 112, 460 105 S540 136, 612 143"
+                ></path>
+              </svg>
+            </div>
+
+            <div class="flagship-copy">
+              <div class="project-kicker">
+                <span>Featured 02</span>
+                <span>Empirical asset pricing / machine learning</span>
+              </div>
+              <h3>GKX Public-Data Replication & Extension</h3>
+              <p>
+                A leakage-controlled study of whether machine learning improves next-month
+                return forecasts—and whether statistical fit translates into reliable rankings
+                or investable portfolio results.
+              </p>
+              <dl class="project-facts">
+                <div><dt>Public panel</dt><dd>77,988 stock-months</dd></div>
+                <div><dt>Prediction coverage</dt><dd>100% of locked test</dd></div>
+                <div><dt>Economic result</dt><dd>Negative spread retained</dd></div>
+              </dl>
+              <p class="project-caveat">
+                Positive squared-error improvement did not produce reliable security rankings.
+                The negative economic result remains part of the evidence.
+              </p>
+              <a
+                class="project-link"
+                href="https://github.com/kunalsingh-finance/gkx-public-data-replication"
+                target="_blank"
+                rel="noopener"
+              >
+                View repository <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card feature-allocation motion-scene" data-reveal>
+              <div class="feature-number">03</div>
+              <div class="feature-visual" aria-hidden="true" data-tilt>
+                <svg viewBox="0 0 420 220">
+                  <path class="chart-grid" d="M30 20V190H400 M30 55H400 M30 95H400 M30 135H400"></path>
+                  <path
+                    class="frontier-path"
+                    d="M45 175 C105 168, 132 145, 170 118 S248 62, 392 31"
+                  ></path>
+                  <circle cx="118" cy="153" r="5"></circle>
+                  <circle cx="215" cy="88" r="7"></circle>
+                  <circle cx="335" cy="43" r="5"></circle>
+                </svg>
+              </div>
+              <p class="eyebrow">Portfolio construction</p>
               <h3>IPS-Driven Asset Allocation</h3>
-              <small>
-                Policy-constrained allocation, factor diagnostics, stress testing, benchmark
-                review, and committee reporting.
-              </small>
-              <div class="card-tags"><span>Optimization</span><span>Risk</span><span>Reporting</span></div>
+              <p>
+                Policy-constrained allocation, benchmark comparison, risk contribution,
+                stress tests, and investment-committee reporting.
+              </p>
+              <div class="tag-list"><span>Optimization</span><span>Risk</span><span>Reporting</span></div>
               <a
                 href="https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine"
                 target="_blank"
                 rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
-              </a>
+              >Explore project <span aria-hidden="true">↗</span></a>
             </article>
 
-            <article class="repository-card" data-reveal>
-              <span class="card-number">03</span>
-              <p>Quantitative investing</p>
+            <article class="feature-card feature-black-litterman motion-scene" data-reveal>
+              <div class="feature-number">04</div>
+              <div class="feature-visual signal-visual" aria-hidden="true" data-tilt>
+                <span style="--height: 42%"></span>
+                <span style="--height: 73%"></span>
+                <span style="--height: 56%"></span>
+                <span style="--height: 87%"></span>
+                <span style="--height: 64%"></span>
+                <span style="--height: 92%"></span>
+                <span style="--height: 49%"></span>
+              </div>
+              <p class="eyebrow">Quantitative investing</p>
               <h3>Black-Litterman Optimizer</h3>
-              <small>
+              <p>
                 Benchmark-implied priors, analyst views, posterior returns, constrained
-                optimization, and risk contributions.
-              </small>
-              <div class="card-tags"><span>Bayesian</span><span>Equities</span><span>Max-Sharpe</span></div>
+                max-Sharpe optimization, and transparent risk contribution.
+              </p>
+              <div class="tag-list"><span>Bayesian views</span><span>Equities</span><span>Python</span></div>
               <a
                 href="https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer"
                 target="_blank"
                 rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
+              >Explore project <span aria-hidden="true">↗</span></a>
+            </article>
+
+            <article class="feature-card feature-pbor motion-scene" data-reveal>
+              <div class="feature-number">05</div>
+              <div class="feature-visual ledger-visual" aria-hidden="true" data-tilt>
+                <div><span></span><span></span><i>✓</i></div>
+                <div><span></span><span></span><i>✓</i></div>
+                <div><span></span><span></span><i>✓</i></div>
+                <div><span></span><span></span><i>✓</i></div>
+              </div>
+              <p class="eyebrow">Investment operations</p>
+              <h3>PBOR Performance Reporting</h3>
+              <p>
+                Month-end returns, attribution, reconciliation, QA, sign-off logic, and
+                executive-ready Excel, PDF, SQLite, and dashboard outputs.
+              </p>
+              <div class="tag-list"><span>47 checks</span><span>Controls</span><span>Audit trail</span></div>
+              <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener">
+                Explore project <span aria-hidden="true">↗</span>
               </a>
             </article>
-
-            <article class="repository-card" data-reveal>
-              <span class="card-number">04</span>
-              <p>Fund accounting</p>
-              <h3>Fund NAV Reconciliation</h3>
-              <small>
-                Daily NAV calculation, custodian comparison, break severity, and reproducible
-                exception reporting.
-              </small>
-              <div class="card-tags"><span>NAV</span><span>Reconciliation</span><span>Data quality</span></div>
-              <a
-                href="https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine"
-                target="_blank"
-                rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-
-            <article class="repository-card" data-reveal>
-              <span class="card-number">05</span>
-              <p>Machine learning</p>
-              <h3>Stock Return Prediction</h3>
-              <small>
-                Cross-sectional return modeling across 4.09 million stock-month observations
-                with chronological validation and portfolio diagnostics.
-              </small>
-              <div class="card-tags"><span>Python</span><span>ML</span><span>4.09M rows</span></div>
-              <a
-                href="https://github.com/kunalsingh-finance/statistical-learning-stock-return-prediction"
-                target="_blank"
-                rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-
-            <article class="repository-card" data-reveal>
-              <span class="card-number">06</span>
-              <p>Portfolio inputs</p>
-              <h3>Shrinkage–BL Bridge</h3>
-              <small>
-                Mean and covariance shrinkage workflow designed to stabilize noisy inputs before
-                Black-Litterman portfolio construction.
-              </small>
-              <div class="card-tags"><span>Shrinkage</span><span>Covariance</span><span>BL</span></div>
-              <a
-                href="https://github.com/kunalsingh-finance/shrinkage-bl-bridge"
-                target="_blank"
-                rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-
-            <article class="repository-card" data-reveal>
-              <span class="card-number">07</span>
-              <p>Corporate finance workflow</p>
-              <h3>M&A Target Screening</h3>
-              <small>
-                Sanitized target-screening workflow for validation, standardization, duplicate
-                detection, and exception reporting.
-              </small>
-              <div class="card-tags"><span>M&A</span><span>Screening</span><span>Validation</span></div>
-              <a
-                href="https://github.com/kunalsingh-finance/M-A-Target-Screening-Workflow"
-                target="_blank"
-                rel="noopener"
-              >
-                View repository <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-          </div>
-
-          <div class="archive-label academic-label" data-reveal>
-            <span>Selected analytical work</span>
-            <strong>07</strong>
-          </div>
-
-          <div class="analytical-grid">
-            <article data-reveal>
-              <span>Derivatives</span>
-              <h3>DeepDuck Derivatives Operations Lab</h3>
-              <p>Options structures, catalysts, P/L review, Greeks, volatility, and risk-manager analysis.</p>
-            </article>
-            <article data-reveal>
-              <span>Fixed income</span>
-              <h3>Northrop Grumman Bond Analysis</h3>
-              <p>YTM, duration, convexity, pricing sensitivity, issuer ratios, and competitor comparison.</p>
-            </article>
-            <article data-reveal>
-              <span>Portfolio management</span>
-              <h3>Dual-Beta Investment Strategy</h3>
-              <p>Sector-aware high-beta equity selection, construction rules, execution, and risk analysis.</p>
-            </article>
-            <article data-reveal>
-              <span>Valuation</span>
-              <h3>Graco Inc. Valuation</h3>
-              <p>Business analysis, profitability review, DCF valuation, comparable companies, and value outlook.</p>
-            </article>
-            <article data-reveal>
-              <span>Market data</span>
-              <h3>Stock Analysis Package</h3>
-              <p>Price data, news headlines, event returns, and sentiment analysis in a Python workflow.</p>
-            </article>
-            <article data-reveal>
-              <span>Factor research</span>
-              <h3>Factor Model Construction</h3>
-              <p>Market, risk-free, size, and momentum factors with regression analysis in R.</p>
-            </article>
-            <article data-reveal>
-              <span>Business research</span>
-              <h3>Toyota Customer Satisfaction Research</h3>
-              <p>Customer experience, dealership service, after-sales support, and brand perception analysis.</p>
-            </article>
-          </div>
-
-          <div class="artifact-note" data-reveal>
-            <p>
-              Reviewed project artifacts can be discussed for recruiting purposes. Raw
-              workbooks, reports, restricted market data, and course materials remain private.
-            </p>
-            <a href="mailto:ks0000477@gmail.com?subject=Project%20Artifact%20Request">
-              Request an artifact <span aria-hidden="true">↗</span>
-            </a>
           </div>
         </div>
       </section>
 
-      <section class="portfolio-case-section" id="portfolio">
-        <div class="section-shell portfolio-case-layout">
-          <div class="portfolio-case-heading" data-reveal>
-            <p class="overline">Managed portfolio case study</p>
-            <h2>Portfolio decisions translated into measurable outcomes.</h2>
+      <section class="portfolio-section" id="portfolio" data-chapter="Portfolio case" data-chapter-index="04">
+        <div class="section-shell">
+          <div class="portfolio-heading" data-reveal>
+            <div>
+              <p class="eyebrow">Personal portfolio / reviewed case</p>
+              <h2>A live investment process, documented after the fact.</h2>
+            </div>
             <p>
-              IBKR PortfolioAnalyst reporting was used to review return, allocation,
-              income, contributors, detractors, and benchmark context across a
-              self-directed investment strategy.
+              This self-directed case shows how I monitor capital, isolate return contribution,
+              review concentration, and turn portfolio outcomes into the next risk decision.
             </p>
           </div>
 
-          <div class="portfolio-case-dashboard" data-reveal>
-            <div class="portfolio-terminal" aria-label="Portfolio performance summary">
-              <div class="terminal-topline">
-                <span>PortfolioAnalyst</span>
-                <strong>2025-06-30 to 2026-06-30</strong>
+          <div class="portfolio-dashboard" data-reveal>
+            <div class="portfolio-terminal" data-tilt>
+              <div class="visual-header">
+                <span>PORTFOLIOANALYST</span>
+                <span>2025-06-30 → 2026-06-30</span>
               </div>
-              <div class="terminal-grid">
-                <article>
-                  <span>Beginning NAV</span>
-                  <strong>$1.07M</strong>
-                </article>
-                <article>
-                  <span>Ending NAV</span>
-                  <strong>$2.81M</strong>
-                </article>
-                <article>
-                  <span>NAV change</span>
-                  <strong>$1.74M</strong>
-                </article>
-                <article>
-                  <span>Period return</span>
-                  <strong>162.09%</strong>
-                </article>
+              <div class="terminal-metrics">
+                <article><span>Beginning NAV</span><strong>$1.07M</strong></article>
+                <article><span>Ending NAV</span><strong>$2.81M</strong></article>
+                <article><span>NAV change</span><strong>$1.74M</strong></article>
+                <article><span>Reported period return</span><strong><span data-count-to="162.09" data-count-decimals="2">162.09</span>%</strong></article>
               </div>
-              <div class="performance-visual" aria-hidden="true">
-                <div class="performance-axis">
-                  <span>Jun 2025</span>
-                  <span>Dec 2025</span>
-                  <span>Jun 2026</span>
-                </div>
-                <svg viewBox="0 0 720 260" role="img" aria-label="Illustrative rising portfolio performance line">
+              <div class="performance-chart" aria-hidden="true">
+                <div class="chart-labels"><span>Jun 2025</span><span>Dec 2025</span><span>Jun 2026</span></div>
+                <svg viewBox="0 0 760 280">
                   <defs>
-                    <linearGradient id="portfolio-line-gradient" x1="0" x2="1" y1="0" y2="0">
-                      <stop offset="0%" stop-color="#78998a" />
-                      <stop offset="100%" stop-color="#c5a267" />
+                    <linearGradient id="portfolio-gradient" x1="0" x2="1">
+                      <stop offset="0%" stop-color="#79c9ff"></stop>
+                      <stop offset="100%" stop-color="#d7a85b"></stop>
                     </linearGradient>
                   </defs>
+                  <path class="portfolio-grid" d="M25 50H735 M25 125H735 M25 200H735 M25 250H735"></path>
                   <path
-                    class="benchmark-path"
-                    d="M 28 214 C 125 202, 184 184, 252 176 S 392 148, 506 130 S 638 95, 692 82"
-                  />
+                    class="benchmark-line"
+                    d="M28 224 C110 211, 185 197, 250 186 S395 159, 500 140 S650 100, 730 82"
+                  ></path>
                   <path
-                    class="portfolio-path"
-                    d="M 28 216 C 92 210, 128 205, 174 192 S 246 170, 304 154 S 392 130, 444 104 S 542 70, 692 34"
-                  />
-                  <circle class="portfolio-endpoint" cx="692" cy="34" r="7" />
+                    class="portfolio-line"
+                    d="M28 228 C90 222, 135 216, 185 198 S270 164, 334 150 S430 119, 485 91 S590 57, 730 31"
+                  ></path>
+                  <circle class="portfolio-endpoint" cx="730" cy="31" r="7"></circle>
                 </svg>
               </div>
             </div>
 
-            <div class="portfolio-insight-panel" aria-label="Portfolio insight cards">
+            <div class="portfolio-side">
               <article>
                 <span>Net deposits / withdrawals</span>
                 <strong>$0.00</strong>
@@ -586,356 +516,315 @@
               <article>
                 <span>Projected annual income</span>
                 <strong>$17.77K</strong>
-                <p>Estimated by PortfolioAnalyst from ETF and stock holdings.</p>
+                <p>Estimated from the ETF and stock holdings in PortfolioAnalyst.</p>
               </article>
               <article>
                 <span>Short-window return</span>
                 <strong>6.06%</strong>
-                <p>Reported for 2026-06-24 to 2026-06-30.</p>
+                <p>Reported for 2026-06-24 through 2026-06-30.</p>
               </article>
             </div>
           </div>
 
-          <div class="portfolio-analytics-grid">
-            <article class="allocation-card" data-reveal>
-              <span class="portfolio-card-label">Allocation</span>
-              <h3>High-conviction equity exposure with cash control.</h3>
+          <div class="portfolio-detail-grid">
+            <article data-reveal>
+              <p class="eyebrow">Allocation</p>
+              <h3>Concentrated equity exposure, monitored explicitly.</h3>
               <div class="allocation-meter" aria-label="Equities allocation 99.48 percent">
                 <span style="--allocation: 99.48%"></span>
               </div>
-              <div class="allocation-rows">
-                <div><span>Equities</span><strong>99.48%</strong></div>
-                <div><span>Cash</span><strong>0.52%</strong></div>
+              <div class="data-row"><span>Equities</span><strong>99.48%</strong></div>
+              <div class="data-row"><span>Cash</span><strong>0.52%</strong></div>
+            </article>
+
+            <article data-reveal>
+              <p class="eyebrow">Contribution review</p>
+              <h3>Attribution before narrative.</h3>
+              <div class="mover-grid">
+                <span>SNDK <strong>+4.40%</strong></span>
+                <span>AMAT <strong>+0.73%</strong></span>
+                <span>LRCX <strong>+0.59%</strong></span>
+                <span class="negative">WDC <strong>−0.44%</strong></span>
+                <span class="negative">ON <strong>−0.36%</strong></span>
+                <span class="negative">QCOM <strong>−0.08%</strong></span>
               </div>
             </article>
 
-            <article class="movers-card" data-reveal>
-              <span class="portfolio-card-label">Contribution review</span>
-              <h3>Top and bottom movers were isolated for decision review.</h3>
-              <div class="mover-list">
-                <div><span>SNDK</span><strong>+4.40%</strong></div>
-                <div><span>AMAT</span><strong>+0.73%</strong></div>
-                <div><span>LRCX</span><strong>+0.59%</strong></div>
-                <div class="negative"><span>WDC</span><strong>-0.44%</strong></div>
-                <div class="negative"><span>ON</span><strong>-0.36%</strong></div>
-                <div class="negative"><span>QCOM</span><strong>-0.08%</strong></div>
+            <article data-reveal>
+              <p class="eyebrow">Theme exposure</p>
+              <h3>Conviction made visible through theme concentration.</h3>
+              <div class="theme-list">
+                <div style="--theme: 54.63%"><span>Tech hardware</span><strong>54.63%</strong><i></i></div>
+                <div style="--theme: 41.22%"><span>Data centers</span><strong>41.22%</strong><i></i></div>
+                <div style="--theme: 40.76%"><span>Cloud storage</span><strong>40.76%</strong><i></i></div>
+                <div style="--theme: 38.11%"><span>Memory chips</span><strong>38.11%</strong><i></i></div>
+                <div style="--theme: 37.77%"><span>Big data</span><strong>37.77%</strong><i></i></div>
               </div>
-            </article>
-
-            <article class="themes-card" data-reveal>
-              <span class="portfolio-card-label">Theme exposure</span>
-              <h3>Portfolio themes were concentrated in technology infrastructure.</h3>
-              <div class="theme-bars">
-                <div style="--theme: 54.63%"><span>Tech Hardware Innovation</span><strong>54.63%</strong></div>
-                <div style="--theme: 41.22%"><span>Data Centers</span><strong>41.22%</strong></div>
-                <div style="--theme: 40.76%"><span>Cloud Storage</span><strong>40.76%</strong></div>
-                <div style="--theme: 38.11%"><span>Memory Chips</span><strong>38.11%</strong></div>
-                <div style="--theme: 37.77%"><span>Big Data</span><strong>37.77%</strong></div>
-              </div>
-            </article>
-
-            <article class="process-card" data-reveal>
-              <span class="portfolio-card-label">Investment process</span>
-              <h3>Built around measurable review points.</h3>
-              <ol>
-                <li>Monitor NAV, benchmark movement, and contribution to return.</li>
-                <li>Review position-level winners and detractors after major moves.</li>
-                <li>Track allocation drift, cash level, and income contribution.</li>
-                <li>Document what worked, what failed, and where risk should tighten.</li>
-              </ol>
             </article>
           </div>
 
-          <div class="portfolio-case-note" data-reveal>
+          <div class="portfolio-process" data-reveal>
+            <p class="eyebrow">Portfolio operating cadence</p>
+            <ol>
+              <li><span>01</span>Form the thesis and define what would invalidate it.</li>
+              <li><span>02</span>Size positions against conviction, liquidity, and correlation.</li>
+              <li><span>03</span>Monitor contribution, allocation drift, cash, and concentration.</li>
+              <li><span>04</span>Review realized outcomes and update the risk budget.</li>
+            </ol>
+          </div>
+
+          <p class="portfolio-disclaimer" data-reveal>
+            Figures are rounded from Interactive Brokers PortfolioAnalyst exports and included
+            for recruiting discussion only. Account identifiers, detailed position sizes,
+            transaction files, and source statements are not published.
+          </p>
+        </div>
+      </section>
+
+      <section class="project-index-section" id="projects" data-chapter="Complete index" data-chapter-index="05">
+        <div class="section-shell">
+          <div class="index-heading" data-reveal>
+            <div>
+              <p class="eyebrow">Complete work index</p>
+              <h2>Nine public builds. Seven analytical studies.</h2>
+            </div>
             <p>
-              Figures are rounded from Interactive Brokers PortfolioAnalyst exports and
-              included for recruiting discussion only. The section avoids account identifiers,
-              detailed position sizes, and source PDF files.
+              Public repositories connect directly to reproducible code. Analytical work is
+              summarized without publishing restricted data, raw course files, or unreviewed
+              artifacts.
             </p>
+          </div>
+
+          <div class="index-label" data-reveal>
+            <span>Public repositories</span>
+            <strong>09</strong>
+          </div>
+
+          <div class="repository-grid">
+            <article class="repository-card" data-reveal>
+              <span>01 / Regulatory risk</span>
+              <h3>U.S. Bank Risk Early-Warning Platform</h3>
+              <p>Governed FDIC data, 65 indicators, chronological validation, rankings, and explainability.</p>
+              <a href="https://github.com/kunalsingh-finance/us-bank-risk-regulatory-data-platform" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>02 / Empirical asset pricing</span>
+              <h3>GKX Public-Data Replication</h3>
+              <p>Leakage-controlled machine learning, locked testing, portfolio sorts, costs, and factor diagnostics.</p>
+              <a href="https://github.com/kunalsingh-finance/gkx-public-data-replication" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>03 / Investment operations</span>
+              <h3>PBOR Performance Reporting</h3>
+              <p>Returns, attribution, reconciliation, QA, sign-off, and executive reporting controls.</p>
+              <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>04 / Portfolio construction</span>
+              <h3>IPS-Driven Asset Allocation</h3>
+              <p>Policy constraints, risk contribution, stress tests, rebalancing, and committee reporting.</p>
+              <a href="https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>05 / Quantitative investing</span>
+              <h3>Black-Litterman Optimizer</h3>
+              <p>Implied priors, analyst views, posterior returns, constraints, and transparent risk.</p>
+              <a href="https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>06 / Fund accounting</span>
+              <h3>Fund NAV Reconciliation</h3>
+              <p>Daily NAV calculation, custodian comparison, break severity, and reproducible exceptions.</p>
+              <a href="https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>07 / Machine learning</span>
+              <h3>Stock Return Prediction</h3>
+              <p>Cross-sectional modeling across 4.09 million stock-month observations with chronological validation.</p>
+              <a href="https://github.com/kunalsingh-finance/statistical-learning-stock-return-prediction" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>08 / Portfolio inputs</span>
+              <h3>Shrinkage–BL Bridge</h3>
+              <p>Mean and covariance shrinkage designed to stabilize inputs before portfolio construction.</p>
+              <a href="https://github.com/kunalsingh-finance/shrinkage-bl-bridge" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+            <article class="repository-card" data-reveal>
+              <span>09 / Corporate finance</span>
+              <h3>M&A Target Screening</h3>
+              <p>Sanitized validation, standardization, duplicate detection, and review-ready outputs.</p>
+              <a href="https://github.com/kunalsingh-finance/M-A-Target-Screening-Workflow" target="_blank" rel="noopener">Repository ↗</a>
+            </article>
+          </div>
+
+          <div class="index-label analytical-label" data-reveal>
+            <span>Selected analytical work</span>
+            <strong>07</strong>
+          </div>
+
+          <div class="analytical-grid">
+            <article data-reveal><span>Derivatives</span><h3>DeepDuck Derivatives Operations Lab</h3><p>Options structures, catalysts, P/L, Greeks, volatility, and risk-manager analysis.</p></article>
+            <article data-reveal><span>Fixed income</span><h3>Northrop Grumman Bond Analysis</h3><p>YTM, duration, convexity, price sensitivity, issuer ratios, and peer comparison.</p></article>
+            <article data-reveal><span>Portfolio management</span><h3>Dual-Beta Investment Strategy</h3><p>Sector-aware equity selection, construction rules, execution, and risk analysis.</p></article>
+            <article data-reveal><span>Valuation</span><h3>Graco Inc. Valuation</h3><p>Business analysis, profitability, DCF valuation, comparable companies, and outlook.</p></article>
+            <article data-reveal><span>Market data</span><h3>Stock Analysis Package</h3><p>Price data, news headlines, event returns, and sentiment in a Python workflow.</p></article>
+            <article data-reveal><span>Factor research</span><h3>Factor Model Construction</h3><p>Market, risk-free, size, and momentum factors with regression analysis in R.</p></article>
+            <article data-reveal><span>Business research</span><h3>Toyota Customer Satisfaction</h3><p>Customer experience, dealership service, after-sales support, and brand perception.</p></article>
+          </div>
+
+          <div class="artifact-note" data-reveal>
+            <p>
+              Reviewed project artifacts can be discussed for recruiting purposes. Raw
+              workbooks, restricted market data, and course materials remain private.
+            </p>
+            <a href="mailto:ks0000477@gmail.com?subject=Project%20Artifact%20Request">
+              Request an artifact <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section class="experience-section" id="experience">
+      <section class="experience-section" id="experience" data-chapter="Professional record" data-chapter-index="06">
         <div class="section-shell experience-layout">
-          <div class="profile-column" data-reveal>
-            <p class="overline">Professional record</p>
-            <h2>Finance experience with operational depth.</h2>
-            <div class="profile-card">
-              <img
-                src="assets/kunal-singh-headshot-2026.png"
-                width="1132"
-                height="1126"
-                alt="Kunal Singh"
-                loading="lazy"
-              >
+          <aside class="profile-column" data-reveal>
+            <p class="eyebrow">Professional record</p>
+            <h2>Investment judgment, strengthened by systems.</h2>
+            <div class="profile-card" data-tilt>
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="assets/kunal-singh-headshot-480.webp 480w, assets/kunal-singh-headshot-960.webp 960w"
+                  sizes="(max-width: 680px) 112px, 220px"
+                >
+                <img
+                  src="assets/kunal-singh-headshot-2026.png"
+                  width="1132"
+                  height="1126"
+                  alt="Kunal Singh"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </picture>
               <div>
                 <strong>Kunal Singh</strong>
                 <span>MS Finance / Stevens Institute of Technology</span>
+                <small>New Jersey / New York</small>
+              </div>
+            </div>
+          </aside>
+
+          <div class="experience-content">
+            <div class="timeline" data-reveal>
+              <article>
+                <span>2026 — Present</span>
+                <h3>Student Portfolio Manager</h3>
+                <p>GSMIF</p>
+                <small>Weekly reviews of holdings, trades, benchmark-relative returns, exposures, allocation drift, and risk.</small>
+              </article>
+              <article>
+                <span>2025</span>
+                <h3>Financial Data Analyst</h3>
+                <p>Whitestone Analytics</p>
+                <small>Automated research workflows and standardized more than 1,500 company records with repeatable controls.</small>
+              </article>
+              <article>
+                <span>2025</span>
+                <h3>Financial Analyst Intern</h3>
+                <p>IT By Design</p>
+                <small>Automated financial reporting across three business units and built Power BI dashboards with SQL validation.</small>
+              </article>
+              <article>
+                <span>2025</span>
+                <h3>Graduate Assistant</h3>
+                <p>Stevens School of Business</p>
+                <small>Reconciled more than 450 records, validated 144 submissions, and maintained audit-trail files.</small>
+              </article>
+            </div>
+
+            <div class="education-card" data-reveal>
+              <div>
+                <span>Stevens Institute of Technology</span>
+                <h3>Master of Science in Finance</h3>
+                <p>Investment Banking & Valuation concentration / GPA 3.839</p>
+              </div>
+              <div class="systems-list" aria-label="Technical systems">
+                <span>Python</span><span>SQL</span><span>DuckDB</span><span>Power BI</span>
+                <span>Excel</span><span>pandas</span><span>scikit-learn</span><span>R</span>
+                <span>Bloomberg</span><span>GitHub Actions</span>
               </div>
             </div>
           </div>
-
-          <div class="timeline" data-reveal>
-            <article>
-              <span>2026 — Present</span>
-              <h3>Student Portfolio Manager</h3>
-              <p>GSMIF</p>
-              <small>
-                Weekly portfolio reviews covering holdings, trades, benchmark-relative returns,
-                exposures, allocation drift, and risk monitoring.
-              </small>
-            </article>
-            <article>
-              <span>2025</span>
-              <h3>Financial Data Analyst</h3>
-              <p>Whitestone Analytics</p>
-              <small>
-                Automated research workflows and standardized more than 1,500 company records
-                with repeatable data-quality controls.
-              </small>
-            </article>
-            <article>
-              <span>2025</span>
-              <h3>Financial Analyst Intern</h3>
-              <p>IT By Design</p>
-              <small>
-                Automated financial reporting across three business units and built Power BI
-                dashboards with SQL validation checks.
-              </small>
-            </article>
-            <article>
-              <span>2025</span>
-              <h3>Graduate Assistant</h3>
-              <p>Stevens School of Business</p>
-              <small>
-                Reconciled more than 450 records, validated 144 submissions, and maintained
-                audit-trail files.
-              </small>
-            </article>
-          </div>
         </div>
       </section>
 
-      <section class="education-section">
-        <div class="section-shell education-layout">
-          <div data-reveal>
-            <p class="overline">Education / toolkit</p>
-            <h2>Finance rigor. Technical leverage.</h2>
-          </div>
-          <div class="education-details" data-reveal>
-            <article>
-              <span>Stevens Institute of Technology</span>
-              <h3>Master of Science in Finance</h3>
-              <p>Investment Banking & Valuation concentration / GPA 3.839</p>
-            </article>
-            <div class="systems-list" aria-label="Technical systems">
-              <span>Python</span>
-              <span>SQL</span>
-              <span>Power BI</span>
-              <span>Excel</span>
-              <span>pandas</span>
-              <span>R</span>
-              <span>Bloomberg</span>
-              <span>GitHub</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="credentials-section" id="credentials">
+      <section class="credentials-section" id="credentials" data-chapter="Credentials" data-chapter-index="07">
         <div class="section-shell">
           <div class="credentials-heading" data-reveal>
             <div>
-              <p class="overline">Credentials</p>
+              <p class="eyebrow">Credentials</p>
               <h2>Markets, finance, and execution.</h2>
             </div>
             <p>
-              Select any credential to view its reviewed certificate. Verification identifiers
+              Select a credential to view its reviewed certificate. Verification identifiers
               and unrelated participant details are removed from public previews.
             </p>
           </div>
 
           <div class="credentials-grid">
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Bloomberg for Education"
-                data-title="Bloomberg Market Concepts"
-                data-detail="Markets / economics / currencies / fixed income / equities"
-                data-image="assets/certificates/bmc-certificate.png"
-              >
-                <span>Bloomberg</span>
-                <strong>Bloomberg Market Concepts</strong>
-                <small>Markets / economics / currencies / fixed income / equities</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Forage / Bank of America"
-                data-title="Investment Banking Job Simulation"
-                data-detail="Transaction analysis / valuation / investment banking workflow"
-                data-image="assets/certificates/bofa-certificate-redacted.png"
-              >
-                <span>Forage / Bank of America</span>
-                <strong>Investment Banking Job Simulation</strong>
-                <small>Transaction analysis / valuation / investment banking workflow</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Bloomberg for Education / Stevens"
-                data-title="2025 Global Trading Challenge"
-                data-detail="Trading strategy / market execution / portfolio decision-making"
-                data-image="assets/certificates/global-trading-challenge-redacted.png"
-              >
-                <span>Stevens Institute of Technology</span>
-                <strong>2025 Global Trading Challenge</strong>
-                <small>Trading strategy / market execution / portfolio decision-making</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="LinkedIn Learning"
-                data-title="Fixed Income Fundamentals"
-                data-detail="Bonds / yields / duration / fixed-income markets"
-                data-image="assets/certificates/fixed-income-fundamentals-redacted.png"
-              >
-                <span>LinkedIn Learning</span>
-                <strong>Fixed Income Fundamentals</strong>
-                <small>Bonds / yields / duration / fixed-income markets</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="LinkedIn Learning"
-                data-title="Understanding Capital Markets"
-                data-detail="Market structure / securities / capital formation"
-                data-image="assets/certificates/capital-markets-redacted.png"
-              >
-                <span>LinkedIn Learning</span>
-                <strong>Understanding Capital Markets</strong>
-                <small>Market structure / securities / capital formation</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="CME Group Institute"
-                data-title="Introduction to Futures"
-                data-detail="Futures / derivatives / contract mechanics / market risk"
-                data-image="assets/certificates/derivatives-rates-learning.png"
-              >
-                <span>CME Group</span>
-                <strong>Derivatives and Rates Learning</strong>
-                <small>Futures / options / interest-rate markets / risk</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="CME Group Institute"
-                data-title="Understanding Micro Futures Contracts"
-                data-detail="Contract mechanics / market exposure / risk management"
-                data-image="assets/certificates/micro-futures-learning.png"
-              >
-                <span>CME Group</span>
-                <strong>Micro Futures Learning</strong>
-                <small>Contract mechanics / market exposure / risk management</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Harvard ManageMentor"
-                data-title="Project Management"
-                data-detail="Planning / execution / stakeholders / delivery"
-                data-image="assets/certificates/project-management.png"
-              >
-                <span>Harvard ManageMentor</span>
-                <strong>Project Management</strong>
-                <small>Planning / execution / stakeholders / delivery</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Harvard ManageMentor"
-                data-title="Change Management"
-                data-detail="Organizational change / communication / adoption"
-                data-image="assets/certificates/change-management.png"
-              >
-                <span>Harvard ManageMentor</span>
-                <strong>Change Management</strong>
-                <small>Organizational change / communication / adoption</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
-            <article data-reveal>
-              <button
-                class="credential-trigger"
-                type="button"
-                data-issuer="Harvard ManageMentor"
-                data-title="Writing Skills"
-                data-detail="Business writing / structure / executive communication"
-                data-image="assets/certificates/writing-skills.png"
-              >
-                <span>Harvard ManageMentor</span>
-                <strong>Writing Skills</strong>
-                <small>Business writing / structure / executive communication</small>
-                <em>View certificate <span aria-hidden="true">↗</span></em>
-              </button>
-            </article>
+            <button class="credential-trigger" type="button" data-issuer="Bloomberg for Education" data-title="Bloomberg Market Concepts" data-detail="Markets / economics / currencies / fixed income / equities" data-image="assets/certificates/bmc-certificate.png" data-reveal>
+              <span>Bloomberg</span><strong>Bloomberg Market Concepts</strong><small>Markets / economics / currencies / fixed income / equities</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="Forage / Bank of America" data-title="Investment Banking Job Simulation" data-detail="Transaction analysis / valuation / investment banking workflow" data-image="assets/certificates/bofa-certificate-redacted.png" data-reveal>
+              <span>Forage / Bank of America</span><strong>Investment Banking Job Simulation</strong><small>Transaction analysis / valuation / investment banking workflow</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="Bloomberg for Education / Stevens" data-title="2025 Global Trading Challenge" data-detail="Trading strategy / market execution / portfolio decision-making" data-image="assets/certificates/global-trading-challenge-redacted.png" data-reveal>
+              <span>Stevens Institute of Technology</span><strong>2025 Global Trading Challenge</strong><small>Trading strategy / market execution / portfolio decisions</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="LinkedIn Learning" data-title="Fixed Income Fundamentals" data-detail="Bonds / yields / duration / fixed-income markets" data-image="assets/certificates/fixed-income-fundamentals-redacted.png" data-reveal>
+              <span>LinkedIn Learning</span><strong>Fixed Income Fundamentals</strong><small>Bonds / yields / duration / fixed-income markets</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="LinkedIn Learning" data-title="Understanding Capital Markets" data-detail="Market structure / securities / capital formation" data-image="assets/certificates/capital-markets-redacted.png" data-reveal>
+              <span>LinkedIn Learning</span><strong>Understanding Capital Markets</strong><small>Market structure / securities / capital formation</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="CME Group Institute" data-title="Introduction to Futures" data-detail="Futures / derivatives / contract mechanics / market risk" data-image="assets/certificates/derivatives-rates-learning.png" data-reveal>
+              <span>CME Group</span><strong>Derivatives and Rates Learning</strong><small>Futures / options / interest-rate markets / risk</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="CME Group Institute" data-title="Understanding Micro Futures Contracts" data-detail="Contract mechanics / market exposure / risk management" data-image="assets/certificates/micro-futures-learning.png" data-reveal>
+              <span>CME Group</span><strong>Micro Futures Learning</strong><small>Contract mechanics / exposure / risk management</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="Harvard ManageMentor" data-title="Project Management" data-detail="Planning / execution / stakeholders / delivery" data-image="assets/certificates/project-management.png" data-reveal>
+              <span>Harvard ManageMentor</span><strong>Project Management</strong><small>Planning / execution / stakeholders / delivery</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="Harvard ManageMentor" data-title="Change Management" data-detail="Organizational change / communication / adoption" data-image="assets/certificates/change-management.png" data-reveal>
+              <span>Harvard ManageMentor</span><strong>Change Management</strong><small>Organizational change / communication / adoption</small><em>View certificate ↗</em>
+            </button>
+            <button class="credential-trigger" type="button" data-issuer="Harvard ManageMentor" data-title="Writing Skills" data-detail="Business writing / structure / executive communication" data-image="assets/certificates/writing-skills.png" data-reveal>
+              <span>Harvard ManageMentor</span><strong>Writing Skills</strong><small>Business writing / structure / executive communication</small><em>View certificate ↗</em>
+            </button>
           </div>
         </div>
       </section>
 
-      <section class="contact-section full-screen" id="contact">
-        <div class="contact-glow" aria-hidden="true"></div>
-        <div class="section-content contact-content" data-reveal>
-          <p class="overline">Connect</p>
-          <h2>Bring clarity to investment decisions.</h2>
+      <section class="contact-section" id="contact" data-chapter="Contact" data-chapter-index="08">
+        <div class="contact-grid" aria-hidden="true"></div>
+        <div class="section-shell contact-content" data-reveal>
+          <p class="eyebrow">Connect</p>
+          <h2>Let’s discuss the next investment decision.</h2>
           <p>
-            Available for portfolio analytics, investment reporting, risk, financial data, and
-            finance analyst opportunities.
+            Available for investment research, portfolio analytics, quantitative finance,
+            financial risk, and Python-focused finance opportunities.
           </p>
           <div class="contact-actions">
-            <a class="outline-button light-button" href="mailto:ks0000477@gmail.com">
-              Email Kunal
-              <span aria-hidden="true">↗</span>
+            <a class="button button-light" href="mailto:ks0000477@gmail.com">
+              Email Kunal <span aria-hidden="true">↗</span>
             </a>
-            <a href="https://www.linkedin.com/in/kunalsingh-finance/" target="_blank" rel="noopener">
-              LinkedIn
-            </a>
-            <a href="https://github.com/kunalsingh-finance" target="_blank" rel="noopener">
-              GitHub
-            </a>
+            <a href="https://www.linkedin.com/in/kunalsingh-finance/" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="https://github.com/kunalsingh-finance" target="_blank" rel="noopener">GitHub ↗</a>
           </div>
         </div>
         <footer>
           <span>Kunal Singh</span>
-          <span>Finance / Portfolio Analytics</span>
+          <span>Investment management / research / risk</span>
           <span>New Jersey / New York</span>
         </footer>
       </section>
@@ -943,18 +832,14 @@
 
     <dialog class="credential-dialog" id="credential-dialog" aria-labelledby="credential-dialog-title">
       <div class="credential-dialog-panel">
-        <button
-          class="credential-dialog-close"
-          type="button"
-          aria-label="Close certificate preview"
-        >
+        <button class="credential-dialog-close" type="button" aria-label="Close certificate preview">
           <span aria-hidden="true">×</span>
         </button>
         <div class="credential-preview">
           <img id="credential-dialog-image" src="" alt="">
         </div>
         <div class="credential-dialog-copy">
-          <p class="overline" id="credential-dialog-issuer"></p>
+          <p class="eyebrow" id="credential-dialog-issuer"></p>
           <h2 id="credential-dialog-title"></h2>
           <p id="credential-dialog-detail"></p>
           <small>
