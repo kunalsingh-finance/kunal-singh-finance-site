@@ -114,7 +114,7 @@ const initializeSite = (documentNode, windowNode) => {
         pointerX += (pointerTargetX - pointerX) * 0.035;
         pointerY += (pointerTargetY - pointerY) * 0.035;
 
-        const phase = reduceMotion.matches ? 5.2 : timestamp * 0.00028;
+        const phase = reduceMotion.matches ? 5.2 : timestamp * 0.00036;
         const bandCount = ambientWidth < 760 ? 4 : 6;
         const segmentCount = ambientWidth < 760 ? 38 : 64;
         const particleCount = ambientWidth < 760 ? 16 : 28;
@@ -122,6 +122,13 @@ const initializeSite = (documentNode, windowNode) => {
         ambientContext.clearRect(0, 0, ambientWidth, ambientHeight);
         ambientContext.save();
         ambientContext.globalCompositeOperation = "lighter";
+
+        const scanX = ((phase * 0.15) % 1) * ambientWidth;
+        ambientContext.globalAlpha = 0.32;
+        ambientContext.fillStyle = "rgba(81, 177, 228, 0.045)";
+        ambientContext.fillRect(scanX - 46, 0, 92, ambientHeight);
+        ambientContext.fillStyle = "rgba(129, 211, 255, 0.22)";
+        ambientContext.fillRect(scanX, 0, 0.75, ambientHeight);
 
         for (let band = 0; band < bandCount; band += 1) {
           const thickness = 15 + band * 4;
@@ -170,7 +177,7 @@ const initializeSite = (documentNode, windowNode) => {
         for (let index = 0; index < particleCount; index += 1) {
           const band = index % bandCount;
           const travel =
-            (index / particleCount + phase * (0.028 + (index % 4) * 0.0025)) % 1;
+            (index / particleCount + phase * (0.052 + (index % 4) * 0.0035)) % 1;
           const point = pointOnFlow(travel, band, phase);
           const pulse = 0.45 + Math.sin(phase * 2.2 + index) * 0.22;
           ambientContext.beginPath();
@@ -313,12 +320,89 @@ const initializeSite = (documentNode, windowNode) => {
     }
   }
 
+  const counterElements = Array.from(documentNode.querySelectorAll("[data-count-to]"));
+  const completedCounters = new WeakSet();
+
+  const formatCounterValue = (element, value) => {
+    const decimals = Number.parseInt(element.dataset.countDecimals ?? "0", 10);
+    const useGrouping = element.hasAttribute("data-count-grouping");
+    return value.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+      useGrouping,
+    });
+  };
+
+  const finishCounter = (element) => {
+    const target = Number.parseFloat(element.dataset.countTo ?? "0");
+    if (!Number.isFinite(target)) {
+      return;
+    }
+    element.textContent = formatCounterValue(element, target);
+    completedCounters.add(element);
+  };
+
+  const animateCounter = (element) => {
+    if (!(element instanceof HTMLElement) || completedCounters.has(element)) {
+      return;
+    }
+
+    const target = Number.parseFloat(element.dataset.countTo ?? "0");
+    if (!Number.isFinite(target) || reduceMotion.matches) {
+      finishCounter(element);
+      return;
+    }
+
+    completedCounters.add(element);
+    const duration = target > 1000 ? 1450 : 1150;
+    const startTime = windowNode.performance.now();
+
+    const paintCounter = (timestamp) => {
+      const progress = clamp((timestamp - startTime) / duration, 0, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 4);
+      element.textContent = formatCounterValue(element, target * easedProgress);
+
+      if (progress < 1 && !documentNode.hidden) {
+        windowNode.requestAnimationFrame(paintCounter);
+      } else {
+        element.textContent = formatCounterValue(element, target);
+      }
+    };
+
+    element.textContent = formatCounterValue(element, 0);
+    windowNode.requestAnimationFrame(paintCounter);
+  };
+
+  const activateCountersWithin = (container) => {
+    if (!(container instanceof Element)) {
+      return;
+    }
+    if (container.matches("[data-count-to]")) {
+      animateCounter(container);
+    }
+    container.querySelectorAll("[data-count-to]").forEach(animateCounter);
+  };
+
+  const staggerGroups = Array.from(
+    documentNode.querySelectorAll(
+      ".proof-grid, .feature-grid, .portfolio-detail-grid, .repository-grid, .analytical-grid, .credentials-grid, .timeline",
+    ),
+  );
+  staggerGroups.forEach((group) => {
+    Array.from(group.children).forEach((child, index) => {
+      if (child instanceof HTMLElement && child.hasAttribute("data-reveal")) {
+        child.style.setProperty("--reveal-delay", `${Math.min(index, 6) * 65}ms`);
+      }
+    });
+  });
+
   const revealElements = Array.from(documentNode.querySelectorAll("[data-reveal]"));
   const motionScenes = Array.from(documentNode.querySelectorAll(".motion-scene"));
 
   const revealEverything = () => {
     revealElements.forEach((element) => element.classList.add("is-visible"));
     motionScenes.forEach((element) => element.classList.add("is-active"));
+    counterElements.forEach(finishCounter);
   };
 
   if (reduceMotion.matches || !("IntersectionObserver" in windowNode)) {
@@ -330,6 +414,7 @@ const initializeSite = (documentNode, windowNode) => {
           .filter((entry) => entry.isIntersecting)
           .forEach((entry) => {
             entry.target.classList.add("is-visible");
+            activateCountersWithin(entry.target);
             observer.unobserve(entry.target);
           });
       },
