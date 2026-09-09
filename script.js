@@ -53,53 +53,263 @@ const initializeSite = (documentNode, windowNode) => {
       let ambientWidth = 0;
       let ambientHeight = 0;
       let ambientScroll = 0;
-      let pointerX = 0.62;
-      let pointerY = 0.42;
+      let pointerX = 0.64;
+      let pointerY = 0.38;
       let pointerTargetX = pointerX;
       let pointerTargetY = pointerY;
-      let ambientGradients = [];
+      let backgroundGradient = null;
+      let horizonGradient = null;
+      let terrainGradients = [];
+      let stars = [];
+      let randomSeed = 4187;
+      const bloomCanvas = documentNode.createElement("canvas");
+      const bloomContext = bloomCanvas.getContext("2d");
 
-      const pointOnFlow = (progress, band, phase) => {
-        const direction = band % 2 === 0 ? 1 : -1;
-        const base = ambientHeight * (0.12 + band * 0.145);
-        const slope = ambientHeight * (0.08 + band * 0.012);
-        const amplitude = ambientHeight * (0.025 + band * 0.0035);
-        const drift = Math.sin(phase * 0.42 + band * 1.7) * ambientWidth * 0.018;
-        const pointerInfluence = (pointerX - 0.5) * ambientWidth * 0.028 * direction;
-        const scrollInfluence = (ambientScroll - 0.5) * ambientHeight * 0.11 * direction;
-        const x = progress * ambientWidth + drift + pointerInfluence;
-        const y =
-          base +
-          (progress - 0.5) * slope +
-          Math.sin(progress * Math.PI * 2.25 + phase * (0.72 + band * 0.035) + band) *
-            amplitude +
-          Math.sin(progress * Math.PI * 6.4 - phase * 0.38 + band * 0.72) *
-            amplitude *
-            0.28 +
-          (pointerY - 0.5) * ambientHeight * 0.04 * (1 - progress) +
-          scrollInfluence;
-
-        return { x, y };
+      const seededRandom = () => {
+        randomSeed = (randomSeed * 1664525 + 1013904223) >>> 0;
+        return randomSeed / 4294967296;
       };
 
-      const buildGradient = (start, middle, finish) => {
-        const gradient = ambientContext.createLinearGradient(0, 0, ambientWidth, 0);
-        gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-        gradient.addColorStop(0.22, start);
-        gradient.addColorStop(0.62, middle);
-        gradient.addColorStop(0.88, finish);
-        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-        return gradient;
+      const createStars = () => {
+        randomSeed = 4187;
+        const count = ambientWidth < 760 ? 28 : 60;
+        stars = Array.from({ length: count }, (_, index) => ({
+          x: seededRandom() * 2 - 1,
+          y: seededRandom() * 1.22 - 0.78,
+          z: 0.22 + seededRandom() * 1.02,
+          speed: 0.07 + seededRandom() * 0.1,
+          warm: index % 9 === 0,
+        }));
+      };
+
+      const resetStar = (star) => {
+        star.x = seededRandom() * 2 - 1;
+        star.y = seededRandom() * 1.22 - 0.78;
+        star.z = 1.22;
+        star.speed = 0.07 + seededRandom() * 0.1;
+      };
+
+      const createBloom = () => {
+        if (!bloomContext) {
+          return;
+        }
+        bloomCanvas.width = 640;
+        bloomCanvas.height = 640;
+        const glow = bloomContext.createRadialGradient(320, 320, 0, 320, 320, 320);
+        glow.addColorStop(0, "rgba(156, 226, 255, 0.48)");
+        glow.addColorStop(0.16, "rgba(52, 145, 197, 0.26)");
+        glow.addColorStop(0.46, "rgba(18, 74, 108, 0.12)");
+        glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+        bloomContext.clearRect(0, 0, 640, 640);
+        bloomContext.fillStyle = glow;
+        bloomContext.fillRect(0, 0, 640, 640);
+      };
+
+      const drawStars = (deltaSeconds, horizon, vanishingX, staticFrame) => {
+        ambientContext.save();
+        ambientContext.globalCompositeOperation = "lighter";
+
+        stars.forEach((star) => {
+          if (!staticFrame) {
+            star.z -= deltaSeconds * star.speed;
+          }
+          if (star.z < 0.18) {
+            resetStar(star);
+          }
+
+          const scale = 1 / star.z;
+          const screenX = vanishingX + star.x * ambientWidth * 0.42 * scale;
+          const screenY = horizon + star.y * ambientHeight * 0.3 * scale;
+
+          if (
+            screenX < -80 ||
+            screenX > ambientWidth + 80 ||
+            screenY < -80 ||
+            screenY > ambientHeight + 80
+          ) {
+            resetStar(star);
+            return;
+          }
+
+          const previousScale = 1 / (star.z + Math.max(deltaSeconds, 0.012) * star.speed * 7);
+          const previousX = vanishingX + star.x * ambientWidth * 0.42 * previousScale;
+          const previousY = horizon + star.y * ambientHeight * 0.3 * previousScale;
+          const depth = clamp(1.28 - star.z, 0, 1);
+
+          ambientContext.beginPath();
+          ambientContext.moveTo(previousX, previousY);
+          ambientContext.lineTo(screenX, screenY);
+          ambientContext.globalAlpha = 0.14 + depth * 0.48;
+          ambientContext.strokeStyle = star.warm ? "#e3b468" : "#8bd7ff";
+          ambientContext.lineWidth = 0.45 + depth * 1.1;
+          ambientContext.stroke();
+
+          ambientContext.beginPath();
+          ambientContext.arc(screenX, screenY, 0.45 + depth * 1.3, 0, Math.PI * 2);
+          ambientContext.fillStyle = star.warm ? "#f0c47b" : "#b8e8ff";
+          ambientContext.fill();
+        });
+
+        ambientContext.restore();
+      };
+
+      const drawPerspectiveGrid = (phase, horizon, vanishingX) => {
+        const groundHeight = ambientHeight - horizon;
+        const rayCount = ambientWidth < 760 ? 12 : 22;
+        const rowCount = ambientWidth < 760 ? 12 : 18;
+        const yaw = (pointerX - 0.5) * ambientWidth * 0.06;
+
+        ambientContext.save();
+        ambientContext.globalCompositeOperation = "lighter";
+        ambientContext.strokeStyle = "rgba(103, 187, 229, 0.2)";
+        ambientContext.lineWidth = 0.65;
+
+        for (let ray = 0; ray < rayCount; ray += 1) {
+          const progress = ray / (rayCount - 1);
+          const endX = -ambientWidth * 0.28 + progress * ambientWidth * 1.56 + yaw;
+          ambientContext.beginPath();
+          ambientContext.moveTo(vanishingX + (endX - vanishingX) * 0.018, horizon);
+          ambientContext.lineTo(endX, ambientHeight);
+          ambientContext.globalAlpha = 0.42 + Math.abs(progress - 0.5) * 0.3;
+          ambientContext.stroke();
+        }
+
+        const travel = (phase * 0.32) % 1;
+        for (let row = 0; row <= rowCount; row += 1) {
+          const depth = (row + travel) / rowCount;
+          if (depth > 1) {
+            continue;
+          }
+          const projectedDepth = Math.pow(depth, 2.12);
+          const y = horizon + groundHeight * projectedDepth;
+          const halfWidth = ambientWidth * (0.035 + projectedDepth * 0.78);
+          ambientContext.beginPath();
+          ambientContext.moveTo(vanishingX - halfWidth + yaw * projectedDepth, y);
+          ambientContext.lineTo(vanishingX + halfWidth + yaw * projectedDepth, y);
+          ambientContext.globalAlpha = 0.22 + depth * 0.62;
+          ambientContext.stroke();
+        }
+
+        ambientContext.restore();
+      };
+
+      const drawTerrain = (phase, horizon) => {
+        const layerCount = ambientWidth < 760 ? 2 : 3;
+        const segments = ambientWidth < 760 ? 30 : 52;
+
+        for (let layer = 0; layer < layerCount; layer += 1) {
+          const base = horizon + ambientHeight * (0.13 + layer * 0.11);
+          const amplitude = ambientHeight * (0.018 + layer * 0.012);
+          const points = [];
+
+          for (let segment = 0; segment <= segments; segment += 1) {
+            const progress = segment / segments;
+            const x = progress * ambientWidth;
+            const y =
+              base +
+              Math.sin(progress * Math.PI * (3.2 + layer * 0.38) + phase * (0.62 - layer * 0.08) + layer) *
+                amplitude +
+              Math.sin(progress * Math.PI * 8.4 - phase * 0.31 + layer * 1.7) *
+                amplitude *
+                0.26;
+            points.push({ x, y });
+          }
+
+          ambientContext.save();
+          ambientContext.beginPath();
+          points.forEach((point, index) => {
+            if (index === 0) {
+              ambientContext.moveTo(point.x, point.y);
+            } else {
+              ambientContext.lineTo(point.x, point.y);
+            }
+          });
+          ambientContext.lineTo(ambientWidth, ambientHeight);
+          ambientContext.lineTo(0, ambientHeight);
+          ambientContext.closePath();
+          ambientContext.globalAlpha = 0.54 - layer * 0.1;
+          ambientContext.fillStyle = terrainGradients[layer];
+          ambientContext.fill();
+
+          ambientContext.beginPath();
+          points.forEach((point, index) => {
+            if (index === 0) {
+              ambientContext.moveTo(point.x, point.y);
+            } else {
+              ambientContext.lineTo(point.x, point.y);
+            }
+          });
+          ambientContext.globalCompositeOperation = "lighter";
+          ambientContext.globalAlpha = 0.38 - layer * 0.06;
+          ambientContext.strokeStyle = layer === 1 ? "#d8a95f" : "#68c6f4";
+          ambientContext.lineWidth = 0.7 + layer * 0.25;
+          ambientContext.stroke();
+
+          if (layer === layerCount - 1) {
+            points.forEach((point, index) => {
+              if (index % 4 !== 0) {
+                return;
+              }
+              ambientContext.beginPath();
+              ambientContext.moveTo(point.x, point.y);
+              ambientContext.lineTo(point.x, Math.min(ambientHeight, point.y + 24 + layer * 8));
+              ambientContext.globalAlpha = 0.12;
+              ambientContext.stroke();
+            });
+          }
+          ambientContext.restore();
+        }
+      };
+
+      const drawDataTowers = (phase, horizon, vanishingX) => {
+        const towerCount = ambientWidth < 760 ? 9 : 16;
+        const groundHeight = ambientHeight - horizon;
+
+        ambientContext.save();
+        ambientContext.globalCompositeOperation = "lighter";
+        for (let tower = 0; tower < towerCount; tower += 1) {
+          const depth = 0.13 + ((tower * 0.173 + phase * 0.018) % 0.84);
+          const lane = ((tower * 5) % towerCount) / Math.max(1, towerCount - 1) - 0.5;
+          const groundY = horizon + groundHeight * Math.pow(depth, 2.08);
+          const groundX = vanishingX + lane * ambientWidth * (0.08 + depth * 1.18);
+          const pulse = 0.72 + Math.sin(phase * 1.8 + tower * 0.9) * 0.2;
+          const height = (18 + (tower % 5) * 16) * depth * pulse;
+          const width = 0.8 + depth * 2.2;
+          const warm = tower % 6 === 0;
+
+          ambientContext.globalAlpha = 0.035 + depth * 0.13;
+          ambientContext.fillStyle = warm ? "#dfac61" : "#73cdf9";
+          ambientContext.fillRect(groundX - width * 0.5, groundY - height, width, height);
+
+          ambientContext.beginPath();
+          ambientContext.moveTo(groundX, groundY);
+          ambientContext.lineTo(groundX, groundY - height);
+          ambientContext.globalAlpha = 0.12 + depth * 0.5;
+          ambientContext.strokeStyle = warm ? "#dfac61" : "#73cdf9";
+          ambientContext.lineWidth = 0.55 + depth * 1.25;
+          ambientContext.stroke();
+
+          ambientContext.beginPath();
+          ambientContext.arc(groundX, groundY - height, 0.7 + depth * 1.8, 0, Math.PI * 2);
+          ambientContext.fillStyle = warm ? "#f0bd6f" : "#a8e3ff";
+          ambientContext.fill();
+        }
+        ambientContext.restore();
       };
 
       const paintAmbientField = (timestamp, force = false) => {
         ambientFrame = 0;
 
-        if (ambientWidth === 0 || ambientHeight === 0) {
+        if (
+          ambientWidth === 0 ||
+          ambientHeight === 0 ||
+          !backgroundGradient ||
+          !horizonGradient
+        ) {
           return;
         }
 
-        const mobileFrameInterval = 1000 / 30;
+        const mobileFrameInterval = 1000 / 40;
         if (
           !force &&
           ambientWidth < 760 &&
@@ -109,88 +319,63 @@ const initializeSite = (documentNode, windowNode) => {
           return;
         }
 
+        const deltaSeconds = lastPaintTime > 0 ? Math.min((timestamp - lastPaintTime) / 1000, 0.06) : 0;
         lastPaintTime = timestamp;
-        ambientScroll += (ambientScrollTarget - ambientScroll) * 0.045;
-        pointerX += (pointerTargetX - pointerX) * 0.035;
-        pointerY += (pointerTargetY - pointerY) * 0.035;
+        ambientScroll += (ambientScrollTarget - ambientScroll) * 0.04;
+        pointerX += (pointerTargetX - pointerX) * 0.03;
+        pointerY += (pointerTargetY - pointerY) * 0.03;
 
-        const phase = reduceMotion.matches ? 5.2 : timestamp * 0.00036;
-        const bandCount = ambientWidth < 760 ? 4 : 6;
-        const segmentCount = ambientWidth < 760 ? 38 : 64;
-        const particleCount = ambientWidth < 760 ? 16 : 28;
+        const staticFrame = reduceMotion.matches;
+        const phase = staticFrame ? 3.8 : timestamp * 0.0005;
+        const horizon = ambientHeight * (0.37 + ambientScroll * 0.045 + (pointerY - 0.5) * 0.022);
+        const vanishingX =
+          ambientWidth * (ambientWidth < 760 ? 0.57 : 0.68) +
+          (pointerX - 0.5) * ambientWidth * (ambientWidth < 760 ? 0.045 : 0.095);
 
-        ambientContext.clearRect(0, 0, ambientWidth, ambientHeight);
         ambientContext.save();
-        ambientContext.globalCompositeOperation = "lighter";
+        ambientContext.fillStyle = backgroundGradient;
+        ambientContext.fillRect(0, 0, ambientWidth, ambientHeight);
 
-        const scanX = ((phase * 0.15) % 1) * ambientWidth;
-        ambientContext.globalAlpha = 0.32;
-        ambientContext.fillStyle = "rgba(81, 177, 228, 0.045)";
-        ambientContext.fillRect(scanX - 46, 0, 92, ambientHeight);
-        ambientContext.fillStyle = "rgba(129, 211, 255, 0.22)";
-        ambientContext.fillRect(scanX, 0, 0.75, ambientHeight);
-
-        for (let band = 0; band < bandCount; band += 1) {
-          const thickness = 15 + band * 4;
-          ambientContext.beginPath();
-
-          for (let segment = 0; segment <= segmentCount; segment += 1) {
-            const progress = segment / segmentCount;
-            const point = pointOnFlow(progress, band, phase);
-            const envelope = Math.sin(progress * Math.PI);
-            const y = point.y - thickness * envelope;
-
-            if (segment === 0) {
-              ambientContext.moveTo(point.x, y);
-            } else {
-              ambientContext.lineTo(point.x, y);
-            }
-          }
-
-          for (let segment = segmentCount; segment >= 0; segment -= 1) {
-            const progress = segment / segmentCount;
-            const point = pointOnFlow(progress, band, phase);
-            const envelope = Math.sin(progress * Math.PI);
-            ambientContext.lineTo(point.x, point.y + thickness * envelope);
-          }
-
-          ambientContext.closePath();
-          ambientContext.globalAlpha = band % 2 === 0 ? 0.24 : 0.16;
-          ambientContext.fillStyle = ambientGradients[band % ambientGradients.length];
-          ambientContext.fill();
-
-          ambientContext.beginPath();
-          for (let segment = 0; segment <= segmentCount; segment += 1) {
-            const point = pointOnFlow(segment / segmentCount, band, phase);
-            if (segment === 0) {
-              ambientContext.moveTo(point.x, point.y);
-            } else {
-              ambientContext.lineTo(point.x, point.y);
-            }
-          }
-          ambientContext.globalAlpha = 0.34 + band * 0.025;
-          ambientContext.strokeStyle = band % 3 === 1 ? "#d5a45c" : "#69bdf0";
-          ambientContext.lineWidth = 0.7 + band * 0.12;
-          ambientContext.stroke();
+        if (bloomContext) {
+          const bloomSize = Math.min(Math.max(ambientWidth * 0.72, 520), 940);
+          ambientContext.globalAlpha = 0.84;
+          ambientContext.drawImage(
+            bloomCanvas,
+            vanishingX - bloomSize * 0.5,
+            horizon - bloomSize * 0.5,
+            bloomSize,
+            bloomSize,
+          );
         }
 
-        for (let index = 0; index < particleCount; index += 1) {
-          const band = index % bandCount;
-          const travel =
-            (index / particleCount + phase * (0.052 + (index % 4) * 0.0035)) % 1;
-          const point = pointOnFlow(travel, band, phase);
-          const pulse = 0.45 + Math.sin(phase * 2.2 + index) * 0.22;
-          ambientContext.beginPath();
-          ambientContext.arc(point.x, point.y, index % 5 === 0 ? 2.1 : 1.25, 0, Math.PI * 2);
-          ambientContext.globalAlpha = pulse;
-          ambientContext.fillStyle = index % 6 === 0 ? "#e1b66e" : "#8bd4ff";
-          ambientContext.fill();
-        }
+        const beamX = ((phase * 0.18) % 1) * (ambientWidth + 420) - 210;
+        ambientContext.beginPath();
+        ambientContext.moveTo(beamX - 150, 0);
+        ambientContext.lineTo(beamX + 80, 0);
+        ambientContext.lineTo(beamX + 300, ambientHeight);
+        ambientContext.lineTo(beamX - 90, ambientHeight);
+        ambientContext.closePath();
+        ambientContext.fillStyle = "rgba(96, 196, 244, 0.035)";
+        ambientContext.fill();
+        ambientContext.fillStyle = "rgba(161, 224, 255, 0.16)";
+        ambientContext.fillRect(beamX, 0, 0.85, ambientHeight);
 
+        drawStars(deltaSeconds, horizon, vanishingX, staticFrame);
+
+        ambientContext.globalAlpha = 0.9;
+        ambientContext.fillStyle = horizonGradient;
+        ambientContext.fillRect(0, horizon - 70, ambientWidth, 140);
+        ambientContext.globalAlpha = 0.34;
+        ambientContext.fillStyle = "#8bd8ff";
+        ambientContext.fillRect(0, horizon, ambientWidth, 0.7);
+
+        drawPerspectiveGrid(phase, horizon, vanishingX);
+        drawTerrain(phase, horizon);
+        drawDataTowers(phase, horizon, vanishingX);
         ambientContext.restore();
         root.classList.add("ambient-ready");
 
-        if (!reduceMotion.matches && !documentNode.hidden) {
+        if (!staticFrame && !documentNode.hidden) {
           ambientFrame = windowNode.requestAnimationFrame(paintAmbientField);
         }
       };
@@ -204,23 +389,35 @@ const initializeSite = (documentNode, windowNode) => {
 
         ambientWidth = windowNode.innerWidth;
         ambientHeight = windowNode.innerHeight;
-        const pixelRatio = Math.min(windowNode.devicePixelRatio || 1, ambientWidth < 760 ? 1 : 1.15);
+        const pixelRatio = Math.min(windowNode.devicePixelRatio || 1, ambientWidth < 760 ? 1 : 1.2);
 
         ambientCanvas.width = Math.round(ambientWidth * pixelRatio);
         ambientCanvas.height = Math.round(ambientHeight * pixelRatio);
         ambientContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-        ambientGradients = [
-          buildGradient(
-            "rgba(48, 129, 181, 0.08)",
-            "rgba(79, 181, 235, 0.32)",
-            "rgba(211, 164, 91, 0.1)",
-          ),
-          buildGradient(
-            "rgba(200, 151, 76, 0.04)",
-            "rgba(91, 150, 187, 0.22)",
-            "rgba(221, 174, 98, 0.24)",
-          ),
-        ];
+        backgroundGradient = ambientContext.createLinearGradient(0, 0, 0, ambientHeight);
+        backgroundGradient.addColorStop(0, "#010408");
+        backgroundGradient.addColorStop(0.4, "#04111a");
+        backgroundGradient.addColorStop(0.7, "#02080d");
+        backgroundGradient.addColorStop(1, "#010305");
+
+        horizonGradient = ambientContext.createLinearGradient(0, 0, ambientWidth, 0);
+        horizonGradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+        horizonGradient.addColorStop(0.46, "rgba(32, 113, 156, 0.04)");
+        horizonGradient.addColorStop(0.68, "rgba(96, 198, 245, 0.15)");
+        horizonGradient.addColorStop(0.82, "rgba(219, 168, 88, 0.07)");
+        horizonGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        terrainGradients = Array.from({ length: 3 }, (_, index) => {
+          const gradient = ambientContext.createLinearGradient(0, ambientHeight * 0.38, 0, ambientHeight);
+          gradient.addColorStop(
+            0,
+            index === 1 ? "rgba(109, 83, 43, 0.12)" : "rgba(29, 111, 154, 0.18)",
+          );
+          gradient.addColorStop(0.58, "rgba(8, 25, 35, 0.12)");
+          gradient.addColorStop(1, "rgba(1, 4, 7, 0)");
+          return gradient;
+        });
+        createStars();
         paintAmbientField(windowNode.performance.now(), true);
       };
 
@@ -233,7 +430,7 @@ const initializeSite = (documentNode, windowNode) => {
       windowNode.addEventListener(
         "pointermove",
         (event) => {
-          if (reduceMotion.matches) {
+          if (reduceMotion.matches || event.pointerType === "touch") {
             return;
           }
           pointerTargetX = clamp(event.clientX / windowNode.innerWidth, 0, 1);
@@ -258,8 +455,8 @@ const initializeSite = (documentNode, windowNode) => {
           windowNode.cancelAnimationFrame(ambientFrame);
           ambientFrame = 0;
         }
-        pointerTargetX = 0.62;
-        pointerTargetY = 0.42;
+        pointerTargetX = 0.64;
+        pointerTargetY = 0.38;
         lastPaintTime = 0;
         paintAmbientField(windowNode.performance.now(), true);
         if (!event.matches && ambientFrame === 0) {
@@ -267,6 +464,7 @@ const initializeSite = (documentNode, windowNode) => {
         }
       });
 
+      createBloom();
       resizeAmbientField();
     }
   }
