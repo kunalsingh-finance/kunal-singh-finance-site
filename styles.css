@@ -1732,6 +1732,11 @@ h3 {
   box-shadow: 0 24px 55px rgba(16, 24, 32, 0.12);
 }
 
+.downloadable-case {
+  min-height: 0;
+  border: 1px solid rgba(10, 14, 19, 0.18);
+}
+
 .repository-card > span,
 .analytical-grid article > span {
   margin-bottom: 30px;
