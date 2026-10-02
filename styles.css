@@ -1412,6 +1412,14 @@ h3 {
   overflow: visible;
 }
 
+.chart-disclosure {
+  margin: 0;
+  padding: 0 34px 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .chart-labels {
   display: flex;
   justify-content: space-between;
