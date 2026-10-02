@@ -33,5 +33,15 @@ screenshots, and unreviewed course artifacts.
 The portfolio case study uses rounded public-facing summary metrics only. It does not expose
 account identifiers, raw statements, transaction files, or detailed holdings data.
 
+Portfolio curves are labeled illustrative. They do not plot an observed return series or
+benchmark comparison. The selected work index is curated and only links to public repositories;
+it is not an inventory of private or unpublished work.
+
+The downloadable Treasury Curve & Hedge Engine v1.0.1 package contains reviewed research
+documentation, static charts/report, hypothetical holdings and financing, public Treasury
+terms, a formula-driven workbook, and verification evidence. The source repository remains
+private. The ZIP's SHA-256 is
+`1ecb786284d4ea11f75b74392fe66454de83fc6f0d45c65c68da35baabd910e5`.
+
 Credential cards use reviewed PNG previews. Verification codes and unrelated participant
 details are removed from the public copies while original certificate files remain private.

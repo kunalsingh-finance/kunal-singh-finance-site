@@ -1412,6 +1412,14 @@ h3 {
   overflow: visible;
 }
 
+.chart-disclosure {
+  margin: 0;
+  padding: 0 34px 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .chart-labels {
   display: flex;
   justify-content: space-between;
@@ -1722,6 +1730,11 @@ h3 {
   transform: translateY(-4px);
   background: #ffffff;
   box-shadow: 0 24px 55px rgba(16, 24, 32, 0.12);
+}
+
+.downloadable-case {
+  min-height: 0;
+  border: 1px solid rgba(10, 14, 19, 0.18);
 }
 
 .repository-card > span,
