@@ -6,14 +6,14 @@
     <meta name="theme-color" content="#05070a">
     <meta
       name="description"
-      content="Kunal Singh combines public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
+      content="Kunal Singh's investment research portfolio: 16 public projects spanning equities, fixed income, credit, manager research, portfolio construction, and fund operations."
     >
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kunal Singh Finance Portfolio">
     <meta property="og:title" content="Kunal Singh | Investment Management, Research & Portfolio Analytics">
     <meta
       property="og:description"
-      content="Public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
+      content="Investment research across equities, fixed income, credit, manager selection, portfolio construction, and fund operations. Explore 16 public projects."
     >
     <meta property="og:url" content="https://kunalsingh-finance.github.io/kunal-singh-finance-site/">
     <meta
@@ -26,7 +26,7 @@
     <meta name="twitter:title" content="Kunal Singh | Investment Management, Research & Portfolio Analytics">
     <meta
       name="twitter:description"
-      content="Public-markets research, portfolio construction, risk analytics, and reproducible investment systems."
+      content="Investment research across equities, fixed income, credit, manager selection, portfolio construction, and fund operations. Explore 16 public projects."
     >
     <meta
       name="twitter:image"
@@ -71,6 +71,7 @@
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="#portfolio">Portfolio</a>
         <a href="#work">Research</a>
+        <a href="#projects">All projects</a>
         <a href="#experience">Experience</a>
         <a href="#credentials">Credentials</a>
         <a href="#contact">Contact</a>
@@ -97,6 +98,7 @@
       >
         <a href="#portfolio">Portfolio</a>
         <a href="#work">Research</a>
+        <a href="#projects">All projects</a>
         <a href="#experience">Experience</a>
         <a href="#credentials">Credentials</a>
         <a href="#contact">Contact</a>
@@ -117,8 +119,8 @@
               <span class="hero-line" aria-hidden="true"><span>Measure the outcome.</span></span>
             </h1>
             <p class="hero-summary">
-              I research public markets, manage portfolio risk, and build the analytics that
-              connect a thesis to position sizing, performance, and review.
+              I research equities, fixed income, credit, and investment managers, and build
+              the analytics that connect a thesis to portfolio construction, risk, and review.
             </p>
             <div class="hero-actions">
               <a class="button button-primary" href="#portfolio">
@@ -224,6 +226,8 @@
               <span>Fundamental research</span>
               <span>Security selection</span>
               <span>Portfolio construction</span>
+              <span>Fixed income &amp; credit</span>
+              <span>Manager research</span>
               <span>Position sizing</span>
               <span>Performance attribution</span>
               <span>Risk controls</span>
@@ -241,12 +245,12 @@
             <span>public-data risk indicators</span>
           </article>
           <article data-reveal>
-            <strong><span data-count-to="4.09" data-count-decimals="2">4.09</span>M</strong>
-            <span>stock-month observations analyzed</span>
+            <strong><span data-count-to="3.83" data-count-decimals="2">3.83</span>M</strong>
+            <span>actual auto-ABS loan-month observations</span>
           </article>
           <article data-reveal>
-            <strong data-count-to="47">47</strong>
-            <span>PBOR workflow checks</span>
+            <strong data-count-to="16">16</strong>
+            <span>public research &amp; analytics projects</span>
           </article>
         </div>
       </section>
@@ -258,10 +262,14 @@
               <p class="eyebrow">Research infrastructure / selected work</p>
               <h2>Research translated into portfolio decisions.</h2>
             </div>
-            <p>
-              Five systems that show how I approach security selection, allocation, risk,
-              validation, and the measurement of investment outcomes.
-            </p>
+            <div class="work-introduction">
+              <p>
+                Five core systems show my approach to allocation, risk, validation, and
+                performance. The full collection now also covers Treasury hedging, bank
+                ALM, structured credit, private markets, manager research, and ETF transitions.
+              </p>
+              <a class="text-link" href="#projects">Explore all 16 projects <span aria-hidden="true">↓</span></a>
+            </div>
           </div>
 
           <div class="flagship-stack">
@@ -283,8 +291,8 @@
                 <div><dt>Top-5% capture</dt><dd>10 of 17 failures</dd></div>
               </dl>
               <p class="project-caveat">
-                A review-ranking model—not a calibrated failure probability, official CAMELS
-                rating, or supervisory tool.
+                A review-ranking model with weak calibration and only 17 test failures.
+                Scores are not failure probabilities or official CAMELS ratings.
               </p>
               <a
                 class="project-link"
@@ -368,7 +376,7 @@
               </dl>
               <p class="project-caveat">
                 Positive squared-error improvement did not produce reliable security rankings.
-                The negative economic result remains part of the evidence.
+                The negative portfolio result and current-constituent survivorship bias remain visible.
               </p>
               <a
                 class="project-link"
@@ -400,8 +408,9 @@
               <p class="eyebrow">Portfolio construction</p>
               <h3>IPS-Driven Asset Allocation</h3>
               <p>
-                Policy-constrained allocation, benchmark comparison, risk contribution,
-                stress tests, and investment-committee reporting.
+                Policy-constrained ETF allocation, risk contribution, stress tests,
+                drift monitoring, and committee reporting. The saved example is a
+                synthetic, same-sample demonstration with explicit data provenance.
               </p>
               <div class="tag-list"><span>Optimization</span><span>Risk</span><span>Reporting</span></div>
               <a
@@ -425,8 +434,9 @@
               <p class="eyebrow">Quantitative investing</p>
               <h3>Black-Litterman Optimizer</h3>
               <p>
-                Benchmark-implied priors, analyst views, posterior returns, constrained
-                max-Sharpe optimization, and transparent risk contribution.
+                Benchmark-implied priors, analyst views, constrained weights, and a
+                chronological scenario holdout. The optimized allocation underperformed
+                its benchmark by 5.58 percentage points net in the saved scenario.
               </p>
               <div class="tag-list"><span>Bayesian views</span><span>Equities</span><span>Python</span></div>
               <a
@@ -447,10 +457,11 @@
               <p class="eyebrow">Investment operations</p>
               <h3>PBOR Performance Reporting</h3>
               <p>
-                Month-end returns, attribution, reconciliation, QA, sign-off logic, and
-                executive-ready Excel, PDF, SQLite, and dashboard outputs.
+                Time-weighted and Modified Dietz returns, Brinson-Fachler attribution,
+                position and cash reconciliation, and a persistent exception journal.
+                Intentional synthetic breaks keep reporting sign-off blocked until corrected.
               </p>
-              <div class="tag-list"><span>47 checks</span><span>Controls</span><span>Audit trail</span></div>
+              <div class="tag-list"><span>Exception review</span><span>Controls</span><span>Audit trail</span></div>
               <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener">
                 Explore project <span aria-hidden="true">↗</span>
               </a>
@@ -586,75 +597,183 @@
           <div class="index-heading" data-reveal>
             <div>
               <p class="eyebrow">Complete work index</p>
-              <h2>Nine public builds. Seven analytical studies.</h2>
+              <h2>Sixteen public projects.<br>One investment discipline.</h2>
             </div>
             <p>
-              Public repositories connect directly to reproducible code. Analytical work is
-              summarized without publishing restricted data, raw course files, or unreviewed
-              artifacts.
+              Equities, fixed income, credit, manager research, and the controls behind
+              investment reporting. Every project links to its public code, methods,
+              results, and limitations. Seven additional analytical studies follow below.
             </p>
           </div>
 
           <div class="index-label" data-reveal>
-            <span>Public repositories</span>
-            <strong>09</strong>
+            <span>Public research collection</span>
+            <strong>16</strong>
           </div>
+          <p class="project-review-date">Reviewed against public project sources on <time datetime="2026-10-05">October 5, 2026</time>.</p>
 
-          <div class="repository-grid">
-            <article class="repository-card" data-reveal>
-              <span>01 / Regulatory risk</span>
-              <h3>U.S. Bank Risk Early-Warning Platform</h3>
-              <p>Governed FDIC data, 65 indicators, chronological validation, rankings, and explainability.</p>
-              <a href="https://github.com/kunalsingh-finance/us-bank-risk-regulatory-data-platform" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>02 / Empirical asset pricing</span>
-              <h3>GKX Public-Data Replication</h3>
-              <p>Leakage-controlled machine learning, locked testing, portfolio sorts, costs, and factor diagnostics.</p>
-              <a href="https://github.com/kunalsingh-finance/gkx-public-data-replication" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>03 / Investment operations</span>
-              <h3>PBOR Performance Reporting</h3>
-              <p>Returns, attribution, reconciliation, QA, sign-off, and executive reporting controls.</p>
-              <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>04 / Portfolio construction</span>
-              <h3>IPS-Driven Asset Allocation</h3>
-              <p>Policy constraints, risk contribution, stress tests, rebalancing, and committee reporting.</p>
-              <a href="https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>05 / Quantitative investing</span>
-              <h3>Black-Litterman Optimizer</h3>
-              <p>Implied priors, analyst views, posterior returns, constraints, and transparent risk.</p>
-              <a href="https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>06 / Fund accounting</span>
-              <h3>Fund NAV Reconciliation</h3>
-              <p>Daily NAV calculation, custodian comparison, break severity, and reproducible exceptions.</p>
-              <a href="https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>07 / Machine learning</span>
-              <h3>Stock Return Prediction</h3>
-              <p>Cross-sectional modeling across 4.09 million stock-month observations with chronological validation.</p>
-              <a href="https://github.com/kunalsingh-finance/statistical-learning-stock-return-prediction" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>08 / Portfolio inputs</span>
-              <h3>Shrinkage–BL Bridge</h3>
-              <p>Mean and covariance shrinkage designed to stabilize inputs before portfolio construction.</p>
-              <a href="https://github.com/kunalsingh-finance/shrinkage-bl-bridge" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
-            <article class="repository-card" data-reveal>
-              <span>09 / Corporate finance</span>
-              <h3>M&A Target Screening</h3>
-              <p>Sanitized validation, standardization, duplicate detection, and review-ready outputs.</p>
-              <a href="https://github.com/kunalsingh-finance/M-A-Target-Screening-Workflow" target="_blank" rel="noopener">Repository ↗</a>
-            </article>
+          <nav class="project-category-nav" aria-label="Browse projects by research area">
+            <a href="#portfolio-research">Portfolios &amp; managers <span>6</span></a>
+            <a href="#rates-credit">Rates &amp; credit <span>5</span></a>
+            <a href="#fund-operations">Funds &amp; capital <span>3</span></a>
+            <a href="#research-foundations">Research foundations <span>2</span></a>
+          </nav>
+
+          <div class="project-directory">
+            <section class="project-group" id="portfolio-research" aria-labelledby="portfolio-research-heading">
+              <div class="project-group-heading" data-reveal>
+                <span>01 / Six projects</span>
+                <h3 id="portfolio-research-heading">Portfolios &amp; manager research</h3>
+                <p>Look through exposures, challenge benchmarks, and test allocation decisions.</p>
+              </div>
+              <div class="repository-grid">
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>ETF holdings</span><span class="project-status">New</span></div>
+                  <h4>ETF Holdings &amp; Portfolio Transition Lab</h4>
+                  <p>Looks through six ETFs to underlying issuers, then finds the minimum-turnover transition under concentration, sector, and trading limits. The 7% issuer-cap case moves 16.7058% from IWF to IWD; the 6% case remains infeasible.</p>
+                  <p class="project-scope">2,169 official holdings records. Illustrative allocations; issuer snapshots are one day apart.</p>
+                  <a href="https://github.com/kunalsingh-finance/etf-portfolio-transition-lab" target="_blank" rel="noopener" aria-label="View ETF Holdings and Portfolio Transition Lab repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Manager due diligence</span><span class="project-status">New</span></div>
+                  <h4>Meridian · Investment Manager Research Lab</h4>
+                  <p>Compares four real equity funds over 120 months, with 48 benchmark/window combinations, downside capture, rolling style fits, and factor regressions with uncertainty intervals.</p>
+                  <p class="project-scope">January 2016–December 2025. Revised data vintage; ETF comparison proxies are analyst choices.</p>
+                  <a href="https://github.com/kunalsingh-finance/investment-manager-research-lab" target="_blank" rel="noopener" aria-label="View Meridian Investment Manager Research Lab repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Multi-asset allocation</span></div>
+                  <h4>IPS-Driven Asset Allocation &amp; Rebalancing</h4>
+                  <p>Converts investment policy into ETF constraints, risk contributions, benchmark diagnostics, stress tests, drift alerts, and a committee workbook with source provenance.</p>
+                  <p class="project-scope">The saved example is fully synthetic and evaluated on its fitting sample. Market mode is explicit.</p>
+                  <a href="https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine" target="_blank" rel="noopener" aria-label="View IPS-Driven Asset Allocation Engine repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Quantitative construction</span></div>
+                  <h4>Black-Litterman Portfolio Optimizer</h4>
+                  <p>Combines benchmark-implied returns and analyst views with constrained weights, risk contribution, and a separate chronological holdout including acquisition costs and weight drift.</p>
+                  <p class="project-scope">Saved scenario: 25.19% net return versus 30.77% for the benchmark. Views are undated assumptions.</p>
+                  <a href="https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer" target="_blank" rel="noopener" aria-label="View Black-Litterman Portfolio Optimizer repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Empirical asset pricing</span></div>
+                  <h4>GKX Public-Data Replication &amp; Extension</h4>
+                  <p>Tests statistical fit against security ranking, decile portfolios, turnover, costs, and factor diagnostics under a chronologically locked 34-month test.</p>
+                  <p class="project-scope">OOS R² +1.4772%; D10−D1 −0.3749% monthly. Current-constituent survivorship bias remains.</p>
+                  <a href="https://github.com/kunalsingh-finance/gkx-public-data-replication" target="_blank" rel="noopener" aria-label="View GKX Public-Data Replication repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Statistical learning</span></div>
+                  <h4>Stock Return Prediction</h4>
+                  <p>Compares linear, regularized, tree, and neural-network models with exported diagnostics, charts, and a public sample workflow.</p>
+                  <p class="project-scope">The public proxy uses mom1m as a response stand-in; it is not a full CRSP/WRDS return panel.</p>
+                  <a href="https://github.com/kunalsingh-finance/statistical-learning-stock-return-prediction" target="_blank" rel="noopener" aria-label="View Statistical Learning Stock Return Prediction repository">Explore project ↗</a>
+                </article>
+              </div>
+            </section>
+
+            <section class="project-group" id="rates-credit" aria-labelledby="rates-credit-heading">
+              <div class="project-group-heading" data-reveal>
+                <span>02 / Five projects</span>
+                <h3 id="rates-credit-heading">Fixed income, bank risk &amp; credit</h3>
+                <p>Trace cash flows, size hedges, and inspect what changes under stress.</p>
+              </div>
+              <div class="repository-grid">
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Treasury &amp; market risk</span><span class="project-status">New</span></div>
+                  <h4>Treasury Curve &amp; Hedge Engine</h4>
+                  <p>Prices dated Treasury cash flows, computes nine-node key-rate DV01, sizes constrained hedges, and reconciles historical ledgers. A market-risk monitor adds VaR, expected shortfall, and backtesting.</p>
+                  <p class="project-scope">16 official instrument records. The 99% backtest records 12 exceptions in 477 forecasts and rejects nominal coverage.</p>
+                  <a href="https://github.com/kunalsingh-finance/treasury-curve-risk" target="_blank" rel="noopener" aria-label="View Treasury Curve and Hedge Engine repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Bank ALM &amp; liquidity</span><span class="project-status">New</span></div>
+                  <h4>Bank ALM &amp; Liquidity Risk Engine</h4>
+                  <p>Reconstructs a public Regions Bank balance sheet, dated swap cash flows, deposit stress, and funding policies. The selected hedge/funding policy passes 25 of 34 additional challenges and fails nine.</p>
+                  <p class="project-scope">December 31, 2025 case; 30 candidate policies. Disclosed research assumptions, not the bank's internal risk model.</p>
+                  <div class="repository-actions">
+                    <a href="https://github.com/kunalsingh-finance/bank-alm-risk-engine" target="_blank" rel="noopener" aria-label="View Bank ALM and Liquidity Risk Engine repository">Explore project ↗</a>
+                    <a href="https://kunalsingh-finance.github.io/bank-alm-risk-engine/" target="_blank" rel="noopener">Open dashboard ↗</a>
+                  </div>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Auto-ABS research</span><span class="project-status">New</span></div>
+                  <h4>Structured Credit Risk &amp; Cash-Flow Platform</h4>
+                  <p>Connects SEC loan disclosures, borrower-event models, executed payment priorities, and bond stress results across 3,825,715 actual loan-month observations and 46 deal-months.</p>
+                  <p class="project-scope">322/322 certificate identities pass. Loan-tape cash reconciliation and contractual replay retain unresolved differences.</p>
+                  <a href="https://github.com/kunalsingh-finance/structured-credit-research" target="_blank" rel="noopener" aria-label="View Structured Credit Research repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Private-credit surveillance</span><span class="project-status">New</span></div>
+                  <h4>Direct Lending Surveillance &amp; Workout Lab</h4>
+                  <p>Compares retain, amend, and enforce decisions at one valuation date, tracing cash versus PIK interest, covenant breaches, liquidity, delayed recoveries, and lender present value.</p>
+                  <p class="project-scope">Fictional borrower and loan terms. Three actions across Base, Downside, and Severe cases; no scenario probabilities.</p>
+                  <a href="https://github.com/kunalsingh-finance/direct-lending-surveillance-lab" target="_blank" rel="noopener" aria-label="View Direct Lending Surveillance and Workout Lab repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Regulatory data &amp; ranking</span></div>
+                  <h4>U.S. Bank Risk Early-Warning Platform</h4>
+                  <p>Builds governed FDIC data, 65 public-data indicators, chronological risk rankings, source lineage, and an explainable synthetic demonstration.</p>
+                  <p class="project-scope">698,804 bank-quarters; top-5% capture of 10/17 test failures. Weak calibration; ranks are not failure probabilities.</p>
+                  <a href="https://github.com/kunalsingh-finance/us-bank-risk-regulatory-data-platform" target="_blank" rel="noopener" aria-label="View US Bank Risk Regulatory Data Platform repository">Explore project ↗</a>
+                </article>
+              </div>
+            </section>
+
+            <section class="project-group" id="fund-operations" aria-labelledby="fund-operations-heading">
+              <div class="project-group-heading" data-reveal>
+                <span>03 / Three projects</span>
+                <h3 id="fund-operations-heading">Fund operations &amp; private capital</h3>
+                <p>Explain performance, reconcile records, and follow capital through its reporting cycle.</p>
+              </div>
+              <div class="repository-grid">
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Private-fund economics</span><span class="project-status">New</span></div>
+                  <h4>Private Markets Performance &amp; Capital Lab</h4>
+                  <p>Traces DPI, RVPI, TVPI, dated XIRR, PME, reporting cutoffs, investor accounts, and whole-fund carry through exact-cent ledgers and an offline report.</p>
+                  <p class="project-scope">Four fictional comparison funds and one fictional partnership. Cash flows and comparison index are synthetic.</p>
+                  <a href="https://github.com/kunalsingh-finance/private-markets-capital-lab" target="_blank" rel="noopener" aria-label="View Private Markets Performance and Capital Lab repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Performance &amp; attribution</span></div>
+                  <h4>PBOR · Portfolio Reconciliation &amp; Performance Attribution</h4>
+                  <p>Rebuilds positions, calculates time-weighted and Modified Dietz returns, reconciles Brinson-Fachler effects, and maintains an exception journal with ownership, aging, and reporting controls.</p>
+                  <p class="project-scope">Synthetic position and cash breaks remain open until records are corrected and controls rerun.</p>
+                  <a href="https://github.com/kunalsingh-finance/PBOR" target="_blank" rel="noopener" aria-label="View PBOR Portfolio Reconciliation and Performance Attribution repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Fund accounting</span></div>
+                  <h4>Fund NAV Reconciliation Engine</h4>
+                  <p>Builds a daily position ledger, handles dividends and splits, calculates NAV, compares custodian-style records, and stores classified breaks in SQLite and review exports.</p>
+                  <p class="project-scope">Synthetic fund and custodian records with intentional breaks; simplified accounting coverage.</p>
+                  <a href="https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine" target="_blank" rel="noopener" aria-label="View Fund NAV Reconciliation Engine repository">Explore project ↗</a>
+                </article>
+              </div>
+            </section>
+
+            <section class="project-group" id="research-foundations" aria-labelledby="research-foundations-heading">
+              <div class="project-group-heading" data-reveal>
+                <span>04 / Two projects</span>
+                <h3 id="research-foundations-heading">Research inputs &amp; data quality</h3>
+                <p>Stabilize model inputs and make the records behind a decision easier to review.</p>
+              </div>
+              <div class="repository-grid">
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Portfolio input estimation</span></div>
+                  <h4>Shrinkage-to-Black-Litterman Input Bridge</h4>
+                  <p>Applies constant-correlation covariance shrinkage and Jorion-style mean shrinkage, then exports aligned expected-return and covariance inputs for downstream portfolio construction.</p>
+                  <p class="project-scope">An educational input-estimation workflow; stable inputs do not establish reliable return forecasts.</p>
+                  <a href="https://github.com/kunalsingh-finance/shrinkage-bl-bridge" target="_blank" rel="noopener" aria-label="View Shrinkage to Black-Litterman Input Bridge repository">Explore project ↗</a>
+                </article>
+                <article class="repository-card" data-reveal>
+                  <div class="repository-kicker"><span>Corporate-finance data</span></div>
+                  <h4>M&amp;A Target Screening Workflow</h4>
+                  <p>Standardizes company records, identifies missing or inconsistent fields, flags likely duplicates, and produces clean records and exceptions for deal-sourcing review.</p>
+                  <p class="project-scope">Sanitized educational sample; demonstrates data quality rather than a complete deal-screening scorecard.</p>
+                  <a href="https://github.com/kunalsingh-finance/M-A-Target-Screening-Workflow" target="_blank" rel="noopener" aria-label="View M and A Target Screening Workflow repository">Explore project ↗</a>
+                </article>
+              </div>
+            </section>
           </div>
 
           <div class="index-label analytical-label" data-reveal>

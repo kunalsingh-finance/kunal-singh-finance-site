@@ -5391,3 +5391,221 @@ main {
     transition: none;
   }
 }
+
+/* Complete research collection */
+
+.project-index-section {
+  overflow-wrap: anywhere;
+}
+
+.work-introduction > p {
+  margin-bottom: 24px;
+  color: rgba(232, 239, 244, 0.7);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.work-introduction > a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.project-review-date {
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.project-category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: clamp(44px, 6vw, 72px);
+}
+
+.project-category-nav a {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 18px;
+  border: 1px solid var(--flow-line-strong);
+  border-radius: 4px;
+  background: rgba(7, 16, 22, 0.8);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 650;
+  transition:
+    border-color 240ms var(--ease),
+    background-color 240ms var(--ease);
+}
+
+.project-category-nav a span {
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.project-category-nav a:hover,
+.project-category-nav a:focus-visible {
+  border-color: var(--blue);
+  background: rgba(21, 45, 60, 0.9);
+}
+
+.project-group {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+.project-group + .project-group {
+  margin-top: clamp(56px, 7vw, 88px);
+}
+
+.project-group-heading {
+  margin-bottom: 26px;
+}
+
+.project-group-heading > span,
+.repository-kicker {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+}
+
+.project-group-heading h3 {
+  margin: 14px 0 12px;
+  color: var(--white);
+  font-size: clamp(1.9rem, 3.3vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.project-group-heading p {
+  max-width: 780px;
+  margin: 0;
+  color: rgba(232, 239, 244, 0.7);
+  font-size: 16px;
+}
+
+.project-directory .repository-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  border: 0;
+}
+
+.project-directory .repository-card {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid var(--flow-line-strong);
+  border-radius: 6px;
+  background: rgba(5, 12, 17, 0.92);
+  box-shadow: none;
+  transition:
+    border-color 320ms var(--ease),
+    background-color 320ms var(--ease);
+}
+
+.project-directory .repository-card:hover {
+  padding: clamp(24px, 3vw, 36px);
+  border-color: rgba(121, 201, 255, 0.38);
+  background: rgba(10, 24, 33, 0.96);
+  box-shadow: none;
+}
+
+.repository-kicker {
+  display: flex;
+  min-height: 26px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.repository-kicker .project-status {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border: 1px solid rgba(216, 169, 95, 0.36);
+  border-radius: 3px;
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.project-directory .repository-card h4 {
+  margin: 0 0 18px;
+  color: var(--white);
+  font-size: clamp(1.5rem, 2.2vw, 2.15rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.project-directory .repository-card > p {
+  margin: 0 0 22px;
+  color: rgba(229, 238, 244, 0.78);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.project-directory .repository-card > .project-scope {
+  padding-top: 16px;
+  border-top: 1px solid var(--flow-line);
+  color: rgba(215, 225, 233, 0.64);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.project-directory .repository-card > a,
+.repository-actions {
+  margin-top: auto;
+}
+
+.repository-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.project-directory .repository-card a {
+  min-height: 44px;
+  align-self: flex-start;
+  color: var(--white);
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .project-category-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .project-directory .repository-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .project-group-heading h3 {
+    font-size: clamp(1.85rem, 8vw, 2.6rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-delay: 0ms !important;
+  }
+
+  .project-category-nav a,
+  .project-directory .repository-card {
+    transition: none;
+  }
+}
