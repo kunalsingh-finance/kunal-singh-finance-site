@@ -38,13 +38,16 @@ details are removed from the public copies while original certificate files rema
 
 ## Public Project Collection
 
-The project directory was reviewed against the public repository READMEs on October 5,
-2026. It includes all 16 public research/analytics projects owned by `kunalsingh-finance`;
+The project directory was updated on October 21, 2026, with the public Market Microstructure
+and Options Volatility projects. Their descriptions and figures were checked against their
+published READMEs; the existing collection was reviewed on October 5, 2026.
+It includes all 18 public research/analytics projects owned by `kunalsingh-finance`;
 the GitHub profile and this website are not counted as research projects. Seven additional
 analytical studies retain their reviewed summaries without publishing source course files.
 
 | Research area | Public projects |
 | --- | --- |
+| Execution and derivatives | [Market Microstructure & Optimal Execution Engine](https://github.com/kunalsingh-finance/market-microstructure-execution-engine), [Options Volatility & Dynamic Hedging Engine](https://github.com/kunalsingh-finance/options-volatility-hedging-engine) |
 | Portfolios and manager research | [ETF Holdings & Portfolio Transition Lab](https://github.com/kunalsingh-finance/etf-portfolio-transition-lab), [Investment Manager Research Lab](https://github.com/kunalsingh-finance/investment-manager-research-lab), [IPS-Driven Asset Allocation](https://github.com/kunalsingh-finance/ips-driven-asset-allocation-engine), [Black-Litterman Optimizer](https://github.com/kunalsingh-finance/black-litterman-portfolio-optimizer), [GKX Public-Data Replication](https://github.com/kunalsingh-finance/gkx-public-data-replication), [Stock Return Prediction](https://github.com/kunalsingh-finance/statistical-learning-stock-return-prediction) |
 | Fixed income, bank risk and credit | [Treasury Curve & Hedge Engine](https://github.com/kunalsingh-finance/treasury-curve-risk), [Bank ALM & Liquidity Risk Engine](https://github.com/kunalsingh-finance/bank-alm-risk-engine), [Structured Credit Research](https://github.com/kunalsingh-finance/structured-credit-research), [Direct Lending Surveillance Lab](https://github.com/kunalsingh-finance/direct-lending-surveillance-lab), [U.S. Bank Risk Platform](https://github.com/kunalsingh-finance/us-bank-risk-regulatory-data-platform) |
 | Fund operations and private capital | [Private Markets Capital Lab](https://github.com/kunalsingh-finance/private-markets-capital-lab), [PBOR](https://github.com/kunalsingh-finance/PBOR), [Fund NAV Reconciliation](https://github.com/kunalsingh-finance/fund-nav-reconciliation-engine) |
@@ -58,3 +61,8 @@ disclosures remain in the linked project repositories.
 
 The directory and its category links are static HTML and remain usable without JavaScript.
 Adding projects does not add a backend, external data requests, or a motion dependency.
+
+The latest-research section replaces the employment timeline with two detailed project
+stories and links to public evidence, including the interactive options report. It retains
+the profile and education cards. The former `#experience` anchor still resolves to this
+section; current navigation uses `#latest-research`.
