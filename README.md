@@ -3,8 +3,14 @@
 Dependency-free GitHub Pages portfolio focused on investment research, portfolio analytics,
 financial risk, and reproducible data systems.
 
-The site uses semantic HTML, a responsive graphite visual system, progressive motion with a
-complete reduced-motion fallback, and responsive WebP assets with PNG fallbacks.
+The site uses semantic HTML, a responsive white visual system, charcoal typography,
+subtle green accents, and responsive WebP portraits with PNG fallbacks. Its motion uses
+short opacity/transform reveals, native smooth scrolling, and a soft CSS hero gradient
+that pauses offscreen or in a hidden tab. Reduced-motion preferences disable all effects.
+
+Financial figures render immediately at their final values. Scroll progress updates only
+on scroll/resize through one coalesced animation frame; there is no canvas render loop,
+pointer-tracking animation, scroll hijacking, font download, or motion dependency.
 
 ## Local Preview
 
