@@ -18,6 +18,10 @@ const initializeSite = (documentNode, windowNode) => {
     const progress = available > 0 ? Math.max(0, Math.min(windowNode.scrollY / available, 1)) : 0;
     root.style.setProperty("--scroll-progress", String(progress));
     header?.classList.toggle("is-scrolled", windowNode.scrollY > 16);
+    if (hero?.classList.contains("is-in-view")) {
+      const shift = reduceMotion.matches ? 0 : Math.min(windowNode.scrollY * 0.045, windowNode.innerWidth < 800 ? 14 : 38);
+      hero.style.setProperty("--stage-shift", `${shift}px`);
+    }
   };
   const scheduleScrollPaint = () => {
     if (!scrollFrame) scrollFrame = windowNode.requestAnimationFrame(paintScrollState);
@@ -84,6 +88,7 @@ const initializeSite = (documentNode, windowNode) => {
 
   const syncMotion = () => {
     root.classList.toggle("is-paused", documentNode.hidden || reduceMotion.matches);
+    if (reduceMotion.matches) hero?.style.setProperty("--stage-shift", "0px");
     if (reduceMotion.matches) revealEverything();
   };
   documentNode.addEventListener("visibilitychange", syncMotion);
