@@ -3,10 +3,12 @@
 Dependency-free GitHub Pages portfolio focused on investment research, portfolio analytics,
 financial risk, and reproducible data systems.
 
-The site uses semantic HTML, a responsive white visual system, charcoal typography,
-subtle green accents, and responsive WebP portraits with PNG fallbacks. Its motion uses
-short opacity/transform reveals, native smooth scrolling, and a soft CSS hero gradient
-that pauses offscreen or in a hidden tab. Reduced-motion preferences disable all effects.
+The site uses semantic HTML, a white/silver visual system, oversized centered typography,
+blue accents, and responsive WebP portraits with PNG fallbacks. The opening includes a
+local decorative SVG surface; it is abstract artwork, not a model output or performance
+chart. Short opacity/transform reveals and native scrolling support the research stories.
+The hero artwork floats gently while visible and shifts slightly with native scroll.
+Effects pause offscreen or in a hidden tab; reduced-motion preferences disable them.
 
 Financial figures render immediately at their final values. Scroll progress updates only
 on scroll/resize through one coalesced animation frame; there is no canvas render loop,
