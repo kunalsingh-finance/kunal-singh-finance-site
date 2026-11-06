@@ -201,7 +201,7 @@ a:hover > span[aria-hidden="true"] { transform: translate(2px, -2px); }
   animation-direction: alternate-reverse;
 }
 .hero.is-in-view .hero-signal-field span { animation-play-state: running; }
-.is-paused .hero-signal-field span { animation-play-state: paused; }
+.is-paused .hero .hero-signal-field span { animation-play-state: paused; }
 @keyframes hero-wash { from { transform: translate(-3%, -2%); } to { transform: translate(3%, 3%); } }
 .hero-layout {
   position: relative;
@@ -222,7 +222,7 @@ a:hover > span[aria-hidden="true"] { transform: translate(2px, -2px); }
 .hero-sculpture { width: min(1120px, 100%); margin: 6px auto 24px; transform: translate3d(0, var(--stage-shift, 0px), 0); }
 .hero-sculpture-image { width: 100%; height: auto; animation: surface-float 8s ease-in-out infinite alternate; animation-play-state: paused; }
 .hero.is-in-view .hero-sculpture-image { animation-play-state: running; }
-.is-paused .hero-sculpture-image { animation-play-state: paused; }
+.is-paused .hero .hero-sculpture-image { animation-play-state: paused; }
 .sculpture-caption { display: flex; justify-content: center; gap: 12px 40px; margin-top: -8px; color: var(--faint); font-size: 14px; letter-spacing: 0.01em; }
 @keyframes surface-float { from { transform: translate3d(0, -5px, 0); } to { transform: translate3d(0, 5px, 0); } }
 .hero-book {
