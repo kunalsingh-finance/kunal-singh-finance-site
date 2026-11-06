@@ -123,7 +123,9 @@ main > section:not(.hero) { padding-block: var(--section-gap); }
   transition: color 180ms ease;
 }
 .desktop-nav a:hover, .desktop-nav a.is-active { color: var(--ink); }
-.desktop-nav a.is-active:not(:last-child) { text-decoration: underline; text-underline-offset: 8px; }
+.desktop-nav a:not(:last-child) { position: relative; }
+.desktop-nav a:not(:last-child)::after { content: ""; position: absolute; inset: auto 0 6px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 280ms var(--ease); }
+.desktop-nav a:not(:last-child):is(:hover, :focus-visible, .is-active)::after { transform: scaleX(1); }
 .desktop-nav a:last-child {
   padding: 8px 22px;
   border-radius: 100px;
@@ -163,6 +165,7 @@ main > section:not(.hero) { padding-block: var(--section-gap); }
   transition: background-color 180ms ease, transform 240ms var(--ease);
 }
 .button:hover { background: #363f38; transform: translateY(-2px); }
+.button:active { transform: translateY(0) scale(0.97); }
 .button-secondary { background: transparent; color: var(--ink); border-color: #c9cbd1; }
 .button-secondary:hover { background: #ededf0; color: var(--ink); }
 .text-link, .project-link {
@@ -220,6 +223,10 @@ a:hover > span[aria-hidden="true"] { transform: translate(2px, -2px); }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; margin-top: 32px; }
 .hero-copy .hero-actions { justify-content: center; gap: 14px; margin-top: 28px; }
 .hero-sculpture { width: min(1120px, 100%); margin: 6px auto 24px; transform: translate3d(0, var(--stage-shift, 0px), 0); }
+.hero-artwork { position: relative; transform: perspective(1100px) translate3d(var(--art-x, 0px), var(--art-y, 0px), 0) rotateX(var(--art-rx, 0deg)) rotateY(var(--art-ry, 0deg)); transition: transform 650ms var(--ease); }
+.hero-artwork.is-interacting { transition-duration: 180ms; }
+.hero-artwork::after { content: ""; position: absolute; top: 0; left: 0; width: 240px; height: 240px; background: radial-gradient(circle, #76a7f526, transparent 70%); opacity: 0; pointer-events: none; transform: translate3d(calc(var(--light-x, 0px) - 120px), calc(var(--light-y, 0px) - 120px), 0); transition: opacity 250ms ease; }
+.hero-artwork.is-interacting::after { opacity: 1; }
 .hero-sculpture-image { width: 100%; height: auto; animation: surface-float 8s ease-in-out infinite alternate; animation-play-state: paused; }
 .hero.is-in-view .hero-sculpture-image { animation-play-state: running; }
 .is-paused .hero .hero-sculpture-image { animation-play-state: paused; }
@@ -407,7 +414,7 @@ a:hover > span[aria-hidden="true"] { transform: translate(2px, -2px); }
   background: white;
   transition: border-color 240ms ease, transform 300ms var(--ease);
 }
-.repository-card:hover { border-color: #bbc7df; transform: translateY(-3px); }
+.repository-card:hover { border-color: #bbc7df; }
 .repository-kicker { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; color: var(--muted); font-size: 14px; }
 .project-status { padding: 3px 10px; border-radius: 100px; background: var(--accent-soft); color: #1859a0; font-size: 14px; white-space: nowrap; }
 .repository-card h4 { margin-bottom: 20px; font-size: clamp(1.5rem, 2.1vw, 2rem); overflow-wrap: anywhere; }
@@ -522,7 +529,27 @@ footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16
 }
 .motion-ready [data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(14px); }
 .motion-ready [data-reveal].is-visible { opacity: 1; transform: none; }
-@media (hover: hover) { .motion-ready .repository-card.is-visible:hover { transform: translateY(-3px); } }
+.feature-card, .research-story, .repository-card { transition: transform 350ms var(--ease), box-shadow 350ms var(--ease), border-color 250ms ease; }
+.feature-card:focus-within, .research-story:focus-within, .repository-card:focus-within { box-shadow: 0 0 0 2px #0066cc30; }
+.credential-trigger:active, .menu-button:active { transform: scale(0.98); }
+.menu-button, .menu-button span, .credential-trigger { transition: transform 220ms var(--ease), background-color 180ms ease, border-color 180ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .motion-ready :is(.feature-card, .research-story, .repository-card).is-visible:hover { transform: translateY(-6px); box-shadow: 0 16px 36px #1d23300c; transition: transform 350ms var(--ease), box-shadow 350ms var(--ease), border-color 250ms ease; }
+}
+
+/* Charts reach their final state once and stay idle after the entrance. */
+.effects-ready .visual-reveal :is(.frontier-path, .research-path, .portfolio-line) { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1200ms var(--ease); }
+.effects-ready .visual-reveal:not(.is-visual-visible) :is(.frontier-path, .research-path, .portfolio-line) { stroke-dashoffset: 1; }
+.effects-ready .visual-reveal :is(.risk-signals i, .model-result i) { transform-origin: left; transition: transform 850ms var(--ease) var(--chart-delay, 0ms); }
+.effects-ready .visual-reveal:not(.is-visual-visible) :is(.risk-signals i, .model-result i) { transform: scaleX(0); }
+.effects-ready .visual-reveal.signal-visual > span { transform-origin: bottom; transition: transform 850ms var(--ease) var(--chart-delay, 0ms); }
+.effects-ready .visual-reveal.signal-visual:not(.is-visual-visible) > span { transform: scaleY(0); }
+.effects-ready .visual-reveal.ledger-visual > div { transition: opacity 700ms var(--ease) var(--chart-delay, 0ms), transform 700ms var(--ease) var(--chart-delay, 0ms); }
+.effects-ready .visual-reveal.ledger-visual:not(.is-visual-visible) > div { opacity: 0; transform: translateX(-8px); }
+.visual-reveal :is(.risk-signals > div, .model-result):nth-child(2), .visual-reveal > :nth-child(2) { --chart-delay: 60ms; }
+.visual-reveal :is(.risk-signals > div, .model-result):nth-child(3), .visual-reveal > :nth-child(3) { --chart-delay: 120ms; }
+.visual-reveal :is(.risk-signals > div, .model-result):nth-child(n + 4), .visual-reveal > :nth-child(n + 4) { --chart-delay: 180ms; }
+.effects-ready .visual-reveal:not(.is-visual-visible) * { transition: none; }
 
 @media (max-width: 1100px) {
   :root { --header-height: 74px; }
@@ -668,4 +695,8 @@ footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .motion-ready [data-reveal] { opacity: 1 !important; transform: none !important; }
   .hero-sculpture { transform: none; }
+  .hero-artwork, .button:active, .button:hover, .credential-trigger:active, .menu-button:active { transform: none !important; }
+  .hero-artwork::after { display: none; }
+  .effects-ready .visual-reveal :is(.frontier-path, .research-path, .portfolio-line) { stroke-dashoffset: 0 !important; }
+  .effects-ready .visual-reveal :is(.risk-signals i, .model-result i), .effects-ready .visual-reveal.signal-visual > span, .effects-ready .visual-reveal.ledger-visual > div { transform: none !important; opacity: 1 !important; }
 }

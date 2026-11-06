@@ -10,10 +10,12 @@ const initializeSite = (documentNode, windowNode) => {
   const revealElements = Array.from(documentNode.querySelectorAll("[data-reveal]"));
   const navigationLinks = Array.from(documentNode.querySelectorAll(".desktop-nav a, .mobile-nav a"));
   let scrollFrame = 0;
+  let resetArtwork = () => {};
 
   // No permanent render loop: scroll and resize events share one pending frame.
   const paintScrollState = () => {
     scrollFrame = 0;
+    resetArtwork();
     const available = root.scrollHeight - windowNode.innerHeight;
     const progress = available > 0 ? Math.max(0, Math.min(windowNode.scrollY / available, 1)) : 0;
     root.style.setProperty("--scroll-progress", String(progress));
@@ -68,7 +70,11 @@ const initializeSite = (documentNode, windowNode) => {
 
     // The CSS gradient is paused outside the hero and whenever the tab is hidden.
     const heroObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => entry.target.classList.toggle("is-in-view", entry.isIntersecting));
+      entries.forEach(entry => {
+        entry.target.classList.toggle("is-in-view", entry.isIntersecting);
+        if (entry.isIntersecting) scheduleScrollPaint();
+        else resetArtwork();
+      });
     });
     if (hero) heroObserver.observe(hero);
 
@@ -86,10 +92,80 @@ const initializeSite = (documentNode, windowNode) => {
     documentNode.querySelectorAll("[data-chapter]").forEach(section => chapterObserver.observe(section));
   }
 
+  // Small charts animate once. Without enhancement setup every chart is fully drawn.
+  const visuals = Array.from(documentNode.querySelectorAll(".feature-visual, .risk-console, .research-console, .performance-chart"));
+  let visualObserver;
+  const finishVisuals = () => {
+    root.classList.remove("effects-ready");
+    visuals.forEach(visual => visual.classList.add("is-visual-visible"));
+    visualObserver?.disconnect();
+  };
+  if ("IntersectionObserver" in windowNode && !reduceMotion.matches) {
+    visualObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visual-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.15 });
+    visuals.forEach(visual => {
+      visual.classList.add("visual-reveal");
+      visual.querySelectorAll(".frontier-path, .research-path, .portfolio-line").forEach(path => path.setAttribute("pathLength", "1"));
+      visualObserver.observe(visual);
+    });
+    root.classList.add("effects-ready");
+  }
+
+  // Separate from the float/scroll layers; only fine pointers can activate this.
+  const artwork = documentNode.querySelector(".hero-artwork");
+  const finePointer = windowNode.matchMedia("(hover: hover) and (pointer: fine)");
+  if (artwork) {
+    let pointerFrame = 0;
+    let bounds;
+    let pointerX = 0;
+    let pointerY = 0;
+    const canInteract = event => finePointer.matches && !reduceMotion.matches && !documentNode.hidden && event.pointerType !== "touch";
+    const paintArtwork = () => {
+      pointerFrame = 0;
+      if (!bounds || !finePointer.matches || reduceMotion.matches || documentNode.hidden) return;
+      const x = Math.max(-1, Math.min((pointerX - bounds.left) / bounds.width * 2 - 1, 1));
+      const y = Math.max(-1, Math.min((pointerY - bounds.top) / bounds.height * 2 - 1, 1));
+      artwork.style.setProperty("--art-rx", `${-y * 2.2}deg`);
+      artwork.style.setProperty("--art-ry", `${x * 3.2}deg`);
+      artwork.style.setProperty("--art-x", `${x * 5}px`);
+      artwork.style.setProperty("--art-y", `${y * 3}px`);
+      artwork.style.setProperty("--light-x", `${pointerX - bounds.left}px`);
+      artwork.style.setProperty("--light-y", `${pointerY - bounds.top}px`);
+      artwork.classList.add("is-interacting");
+    };
+    resetArtwork = () => {
+      if (pointerFrame) windowNode.cancelAnimationFrame(pointerFrame);
+      pointerFrame = 0;
+      bounds = undefined;
+      artwork.classList.remove("is-interacting");
+      ["--art-rx", "--art-ry", "--art-x", "--art-y"].forEach(property => artwork.style.removeProperty(property));
+    };
+    artwork.addEventListener("pointermove", event => {
+      if (!canInteract(event)) return;
+      if (!bounds) bounds = artwork.getBoundingClientRect();
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!pointerFrame) pointerFrame = windowNode.requestAnimationFrame(paintArtwork);
+    }, { passive: true });
+    artwork.addEventListener("pointerleave", resetArtwork);
+    artwork.addEventListener("pointercancel", resetArtwork);
+    finePointer.addEventListener("change", resetArtwork);
+  }
+
   const syncMotion = () => {
     root.classList.toggle("is-paused", documentNode.hidden || reduceMotion.matches);
+    resetArtwork();
     if (reduceMotion.matches) hero?.style.setProperty("--stage-shift", "0px");
-    if (reduceMotion.matches) revealEverything();
+    if (reduceMotion.matches) {
+      revealEverything();
+      finishVisuals();
+    }
   };
   documentNode.addEventListener("visibilitychange", syncMotion);
   reduceMotion.addEventListener("change", syncMotion);

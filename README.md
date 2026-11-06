@@ -10,9 +10,16 @@ chart. Short opacity/transform reveals and native scrolling support the research
 The hero artwork floats gently while visible and shifts slightly with native scroll.
 Effects pause offscreen or in a hidden tab; reduced-motion preferences disable them.
 
+Fine-pointer movement adds a small perspective response and soft highlight to the hero
+artwork, using a separate transform layer and event-coalesced frames. Touch visitors keep
+native scrolling and receive press feedback on controls. Research charts draw once on
+entry; cards and navigation provide hover and keyboard-focus feedback. All visual
+enhancements have static fallbacks and honor reduced-motion preferences.
+
 Financial figures render immediately at their final values. Scroll progress updates only
 on scroll/resize through one coalesced animation frame; there is no canvas render loop,
-pointer-tracking animation, scroll hijacking, font download, or motion dependency.
+scroll hijacking, font download, or motion dependency. Pointer interaction schedules frames
+only while the pointer moves over the artwork; leaving it cancels pending work.
 
 ## Local Preview
 
